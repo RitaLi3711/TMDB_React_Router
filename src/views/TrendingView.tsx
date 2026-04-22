@@ -20,8 +20,7 @@ export const TrendingView = () => {
   }
 
   return (
-    <section className="max-w-[1200px] mx-auto p-5 space-y-5">
-      <h1 className="text-3xl font-bold mb-4">Trending</h1>
+    <section className="max-w-[1600px] mx-auto p-5 space-y-5">
       <ButtonGroup
         value={interval}
         onClick={(value: string) => {
