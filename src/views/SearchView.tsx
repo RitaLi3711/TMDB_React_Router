@@ -21,7 +21,7 @@ export const SearchView = () => {
   }, [debouncedQuery]);
 
   if (!data) {
-    return <p className="text-center text-gray-400">Loading...</p>;
+    return <p className="text-center text-[#f0f4ef]">Loading...</p>;
   }
 
   return (
@@ -33,7 +33,7 @@ export const SearchView = () => {
           <Pagination page={page} maxPages={data.total_pages} onClick={setPage} />
         </>
       ) : (
-        <p className="text-center text-gray-400">No search results found</p>
+        <p className="text-center text-[#bfcc94]">No search results found</p>
       )}
     </section>
   );

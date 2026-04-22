@@ -23,7 +23,7 @@ export const MoviesView = () => {
   const gridData = (data?.results ?? []).map((result) => ({
     id: result.id,
     imagePath: result.poster_path,
-    primaryText: result.original_title || '', // Fixed: added fallback
+    primaryText: result.original_title || '',
   }));
 
   const handleCategoryChange = (value: string) => {
@@ -32,7 +32,7 @@ export const MoviesView = () => {
   };
 
   if (!data) {
-    return <p className="text-center text-gray-400">Loading...</p>;
+    return <p className="text-center text-[#f0f4ef]">Loading...</p>;
   }
 
   return (

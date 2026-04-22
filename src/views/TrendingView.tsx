@@ -12,11 +12,11 @@ export const TrendingView = () => {
   const gridData = (data?.results ?? []).map((result) => ({
     id: result.id,
     imagePath: result.poster_path,
-    primaryText: result.original_title,
+    primaryText: result.original_title || '', // Added fallback empty string
   }));
 
   if (!data) {
-    return <p className="text-center text-gray-400">Loading...</p>;
+    return <p className="text-center text-[#f0f4ef]">Loading...</p>;
   }
 
   return (

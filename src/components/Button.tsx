@@ -9,8 +9,8 @@ type ButtonProps = {
 
 const baseStyles = 'inline-block px-6 py-3 rounded-2xl transition font-medium shadow-lg';
 const variants = {
-  primary: 'bg-blue-600 hover:bg-blue-500 text-white',
-  grey: 'bg-gray-700 hover:bg-gray-600 text-white',
+  primary: 'bg-[#e6aace] hover:bg-[#d495b8] text-[#0d1821]',
+  grey: 'bg-[#344966] hover:bg-[#2a3b52] text-[#f0f4ef]',
 };
 
 export const Button = ({ children, variant = 'primary', disabled = false, onClick }: ButtonProps) => {

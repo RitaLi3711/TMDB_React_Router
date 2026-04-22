@@ -19,8 +19,8 @@ export const ImageGrid = ({ results, getHref }: ImageGridProps) => {
           <>
             <img className="w-full h-[390px] object-cover" src={`${IMAGE_BASE_URL}${result.imagePath}`} alt={result.primaryText} />
             <div className="p-3 text-center">
-              <p className="text-sm font-semibold truncate">{result.primaryText}</p>
-              {result.secondaryText && <p className="text-gray-400 text-xs">{result.secondaryText}</p>}
+              <p className="text-sm font-semibold truncate text-[#f0f4ef]">{result.primaryText}</p>
+              {result.secondaryText && <p className="text-[#bfcc94] text-xs">{result.secondaryText}</p>}
             </div>
           </>
         );
@@ -29,14 +29,14 @@ export const ImageGrid = ({ results, getHref }: ImageGridProps) => {
           <Link
             key={result.id}
             to={getHref(result.id)}
-            className="block bg-gray-800 rounded-lg overflow-hidden hover:scale-[1.02] transition"
+            className="block bg-[#344966] rounded-lg overflow-hidden hover:scale-[1.02] transition"
           >
             {content}
           </Link>
         ) : (
           <div
             key={result.id}
-            className="block bg-gray-800 rounded-lg overflow-hidden cursor-pointer hover:scale-[1.02] transition"
+            className="block bg-[#344966] rounded-lg overflow-hidden cursor-pointer hover:scale-[1.02] transition"
           >
             {content}
           </div>

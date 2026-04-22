@@ -31,7 +31,7 @@ export const TelevisionView = () => {
   };
 
   if (!data) {
-    return <p className="text-center text-gray-400">Loading...</p>;
+    return <p className="text-center text-[#f0f4ef]">Loading...</p>;
   }
 
   return (

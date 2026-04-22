@@ -28,7 +28,7 @@ export const MovieView = () => {
   );
 
   if (!data) {
-    return <p className="text-center text-gray-400">Loading...</p>;
+    return <p className="text-center text-[#f0f4ef]">Loading...</p>;
   }
 
   const closeModal = () => {
@@ -43,11 +43,11 @@ export const MovieView = () => {
 
   return (
     <div
-      className="fixed inset-0 bg-black/50 backdrop-blur-md z-50 overflow-y-auto"
+      className="fixed inset-0 bg-[#0d1821]/50 backdrop-blur-md z-50 overflow-y-auto"
       onClick={closeModal}
     >
       <div
-        className="max-w-5xl mx-auto my-10 bg-gray-900 rounded-2xl shadow-2xl p-8 relative"
+        className="max-w-5xl mx-auto my-10 bg-[#0d1821] rounded-2xl shadow-2xl p-8 relative border border-[#344966]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* BACKDROP IMAGE */}
@@ -67,9 +67,9 @@ export const MovieView = () => {
           />
 
           <div className="space-y-4 flex-1">
-            <h1 className="text-4xl font-bold">{data.title}</h1>
-            <p className="text-gray-400">{data.release_date}</p>
-            <p className="text-gray-300 leading-relaxed">{data.overview}</p>
+            <h1 className="text-4xl font-bold text-[#f0f4ef]">{data.title}</h1>
+            <p className="text-[#bfcc94]">{data.release_date}</p>
+            <p className="text-[#f0f4ef] leading-relaxed">{data.overview}</p>
 
             {/* TABS */}
             <LinkGroup

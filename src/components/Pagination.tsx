@@ -12,7 +12,7 @@ export const Pagination = ({ page, maxPages, onClick }: PaginationProps) => {
       <Button onClick={() => onClick(Math.max(page - 1, 1))} disabled={page === 1}>
         Prev
       </Button>
-      <p className="text-gray-300 font-medium">
+      <p className="text-[#f0f4ef] font-medium">
         {page} / {maxPages}
       </p>
       <Button onClick={() => onClick(Math.min(page + 1, maxPages))} disabled={page === maxPages}>

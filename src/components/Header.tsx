@@ -2,10 +2,10 @@ import { Link } from '@/components';
 
 export const Header = () => {
   return (
-    <header className="bg-slate-800 border-b border-slate-700 sticky top-0 z-50">
+    <header className="bg-[#0d1821] border-b border-[#344966] sticky top-0 z-50">
       <div className="flex items-center justify-between gap-20 px-4 py-4">
         <div className="flex items-center gap-4">
-          <h1 className="text-4xl font-bold text-white">TMDB Explorer</h1>
+          <h1 className="text-4xl font-bold text-[#f0f4ef]">TMDB Explorer</h1>
 
           <Link to="/movies/category/now_playing" match={['/movies']}>
             Movies
@@ -28,18 +28,18 @@ export const Header = () => {
           <input
             type="text"
             placeholder="Search..."
-            className="w-64 px-5 py-3 rounded-2xl bg-slate-700 text-white outline-none placeholder:text-gray-400"
+            className="w-64 px-5 py-3 rounded-2xl bg-[#344966] text-[#f0f4ef] outline-none placeholder:text-[#bfcc94]"
           />
 
-          <button className="px-6 py-3 rounded-2xl bg-blue-600 text-white font-medium">
+          <button className="px-6 py-3 rounded-2xl bg-[#e6aace] text-[#0d1821] font-medium hover:bg-[#d495b8] transition">
             Movies
           </button>
 
-          <button className="px-6 py-3 rounded-2xl bg-slate-700 text-white font-medium">
+          <button className="px-6 py-3 rounded-2xl bg-[#344966] text-[#f0f4ef] font-medium hover:bg-[#2a3b52] transition">
             TV
           </button>
 
-          <button className="px-6 py-3 rounded-2xl bg-slate-700 text-white font-medium">
+          <button className="px-6 py-3 rounded-2xl bg-[#344966] text-[#f0f4ef] font-medium hover:bg-[#2a3b52] transition">
             Person
           </button>
         </div>

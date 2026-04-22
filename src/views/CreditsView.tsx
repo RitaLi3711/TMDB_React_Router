@@ -14,7 +14,7 @@ export const CreditsView = () => {
   );
 
   if (!data) {
-    return <p className="text-center text-gray-400">Loading...</p>;
+    return <p className="text-center text-[#f0f4ef]">Loading...</p>;
   }
 
   const gridData = (data?.cast ?? []).map((result) => ({
@@ -25,11 +25,11 @@ export const CreditsView = () => {
   }));
 
   return (
-    <section className="min-h-screen bg-gray-900 text-white">
-      <h2 className="text-2xl font-bold mb-6">Credits</h2>
+    <section className="min-h-screen bg-[#0d1821] text-[#f0f4ef]">
+      <h2 className="text-2xl font-bold mb-6 text-[#f0f4ef]">Credits</h2>
 
       {!data.cast.length && (
-        <p className="text-gray-400 text-center">No credits available.</p>
+        <p className="text-[#bfcc94] text-center">No credits available.</p>
       )}
 
       <ImageGrid results={gridData} />

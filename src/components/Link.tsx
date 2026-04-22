@@ -11,7 +11,7 @@ export const Link = ({ children, to, match = [] }: LinkProps) => {
   const { pathname } = useLocation();
 
   const matched = match.some((pattern) =>
-    matchPath({ path: pattern, end: false }, pathname) // Changed end: true to end: false
+    matchPath({ path: pattern, end: false }, pathname)
   );
 
   return (
@@ -20,8 +20,8 @@ export const Link = ({ children, to, match = [] }: LinkProps) => {
       className={({ isActive }) =>
         `px-4 py-2 rounded-md transition-all duration-200 border ${
           isActive || matched
-            ? 'bg-white text-gray-900 border-white shadow-lg scale-105'
-            : 'bg-gray-700 text-gray-300 border-gray-700 hover:bg-gray-600 hover:text-white hover:border-gray-500'
+            ? 'bg-[#e6aace] text-[#0d1821] border-[#e6aace] shadow-lg scale-105'
+            : 'bg-[#344966] text-[#f0f4ef] border-[#344966] hover:bg-[#2a3b52] hover:text-[#f0f4ef] hover:border-[#bfcc94]'
         }`
       }
       end
