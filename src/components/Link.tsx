@@ -11,7 +11,7 @@ export const Link = ({ children, to, match = [] }: LinkProps) => {
   const { pathname } = useLocation();
 
   const matched = match.some((pattern) =>
-    matchPath({ path: pattern, end: true }, pathname)
+    matchPath({ path: pattern, end: false }, pathname) // Changed end: true to end: false
   );
 
   return (

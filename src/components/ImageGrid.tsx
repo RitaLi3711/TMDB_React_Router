@@ -9,7 +9,7 @@ type ImageGridProps = {
 
 export const ImageGrid = ({ results, getHref }: ImageGridProps) => {
   return (
-    <div className="grid grid-cols-[repeat(auto-fill,_minmax(180px,1fr))] gap-5">
+    <div className="grid grid-cols-[repeat(auto-fill,_minmax(180px,1fr))] gap-6">
       {results?.map((result) => {
         const content = (
           <>

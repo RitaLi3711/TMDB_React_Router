@@ -11,7 +11,8 @@ export const MoviesView = () => {
 
   const [page, setPage] = useState(1);
 
-  const category = interval || 'now_playing';
+  // keep fallback safe
+  const category = interval ?? 'now_playing';
 
   const { data } = useTmdb<MediaResponse>(
     `${MOVIES_VIEW_ENDPOINT}/${category}`,
@@ -25,19 +26,21 @@ export const MoviesView = () => {
     primaryText: result.original_title,
   }));
 
+  const handleCategoryChange = (value: string) => {
+    setPage(1);
+    // IMPORTANT: matches your original route structure
+    navigate(`/movies/category/${value}`);
+  };
+
   if (!data) {
     return <p className="text-center text-gray-400">Loading...</p>;
   }
 
   return (
     <section className="max-w-[1200px] mx-auto p-5 space-y-5">
-
       <ButtonGroup
         value={category}
-        onClick={(value: string) => {
-          setPage(1);
-          navigate(`/movies/category/${value}`);
-        }}
+        onClick={handleCategoryChange}
         options={[
           { label: 'Now Playing', value: 'now_playing' },
           { label: 'Popular', value: 'popular' },
@@ -46,10 +49,10 @@ export const MoviesView = () => {
         ]}
       />
 
-<ImageGrid
-  results={gridData}
-  getHref={(id) => `/movies/${id}`}
-/>
+      <ImageGrid
+        results={gridData}
+        getHref={(id) => `/movies/${id}`}
+      />
 
       <Pagination
         page={page}
