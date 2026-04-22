@@ -1,34 +1,33 @@
 import { ButtonGroup, ImageGrid, Pagination } from '@/components';
-import { MOVIES_VIEW_ENDPOINT } from '@/core/constants';
-import type { MediaResponse } from '@/core/types';
+import { TV_VIEW_ENDPOINT } from '@/core/constants';
 import { useTmdb } from '@/hooks';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-export const MoviesView = () => {
+export const TelevisionView = () => {
   const { interval } = useParams();
   const navigate = useNavigate();
 
   const [page, setPage] = useState(1);
 
   // keep fallback safe
-  const category = interval ?? 'now_playing';
+  const category = interval ?? 'airing_today';
 
-  const { data } = useTmdb<MediaResponse>(
-    `${MOVIES_VIEW_ENDPOINT}/${category}`,
+  const { data } = useTmdb<any>(
+    `${TV_VIEW_ENDPOINT}/${category}`,
     { page },
     [category, page]
   );
 
-  const gridData = (data?.results ?? []).map((result) => ({
+  const gridData = (data?.results ?? []).map((result: any) => ({
     id: result.id,
     imagePath: result.poster_path,
-    primaryText: result.original_title || '', // Fixed: added fallback
+    primaryText: result.name || result.original_title || '',
   }));
 
   const handleCategoryChange = (value: string) => {
     setPage(1);
-    navigate(`/movies/category/${value}`);
+    navigate(`/tv/category/${value}`);
   };
 
   if (!data) {
@@ -41,16 +40,16 @@ export const MoviesView = () => {
         value={category}
         onClick={handleCategoryChange}
         options={[
-          { label: 'Now Playing', value: 'now_playing' },
+          { label: 'Airing Today', value: 'airing_today' },
+          { label: 'On The Air', value: 'on_the_air' },
           { label: 'Popular', value: 'popular' },
           { label: 'Top Rated', value: 'top_rated' },
-          { label: 'Upcoming', value: 'upcoming' },
         ]}
       />
 
       <ImageGrid
         results={gridData}
-        getHref={(id) => `/movies/${id}`}
+        getHref={(id) => `/tv/${id}`}
       />
 
       <Pagination

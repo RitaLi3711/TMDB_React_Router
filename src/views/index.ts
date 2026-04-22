@@ -5,4 +5,7 @@ export * from '@/views/MoviesView';
 export * from '@/views/MovieView';
 export * from '@/views/ReviewsView';
 export * from '@/views/SearchView';
+export * from '@/views/TelevisionView';
 export * from '@/views/TrendingView';
+export * from '@/views/SeasonsView';
+export * from '@/views/EpisodeView';

@@ -30,3 +30,5 @@ export const TOP_RATED_ENDPOINT =
 
 export const UPCOMING_ENDPOINT =
   'https://api.themoviedb.org/3/movie/upcoming';
+
+export const TV_VIEW_ENDPOINT = 'https://api.themoviedb.org/3/tv';
