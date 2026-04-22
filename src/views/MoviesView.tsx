@@ -46,7 +46,10 @@ export const MoviesView = () => {
         ]}
       />
 
-      <ImageGrid results={gridData} getHref={(id) => `/movie/${id}`} />
+<ImageGrid
+  results={gridData}
+  getHref={(id) => `/movies/${id}`}
+/>
 
       <Pagination
         page={page}

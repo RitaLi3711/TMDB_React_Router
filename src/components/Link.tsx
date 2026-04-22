@@ -9,7 +9,10 @@ type LinkProps = {
 
 export const Link = ({ children, to, match = [] }: LinkProps) => {
   const { pathname } = useLocation();
-  const matched = match.some((pattern) => matchPath({ path: pattern, end: false }, pathname));
+
+  const matched = match.some((pattern) =>
+    matchPath({ path: pattern, end: true }, pathname)
+  );
 
   return (
     <NavLink
@@ -21,6 +24,7 @@ export const Link = ({ children, to, match = [] }: LinkProps) => {
             : 'bg-gray-700 text-gray-300 border-gray-700 hover:bg-gray-600 hover:text-white hover:border-gray-500'
         }`
       }
+      end
     >
       {children}
     </NavLink>

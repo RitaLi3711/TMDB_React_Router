@@ -1,9 +1,8 @@
+export * from '@/views/CreditsView';
 export * from '@/views/ErrorView';
 export * from '@/views/HomeView';
+export * from '@/views/MoviesView';
+export * from '@/views/MovieView';
+export * from '@/views/ReviewsView';
 export * from '@/views/SearchView';
-
-export * from '@/views/movies/MoviesView';
-export * from '@/views/movies/TrendingView';
-
-export * from '@/views/movies/CreditsView';
-export * from '@/views/movies/ReviewsView';
+export * from '@/views/TrendingView';
