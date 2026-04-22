@@ -36,7 +36,7 @@ export const MoviesView = () => {
   }
 
   return (
-    <section className="max-w-[1200px] mx-auto p-5 space-y-5">
+    <section className="max-w-[1600px] mx-auto p-5 space-y-5">
       <ButtonGroup
         value={category}
         onClick={handleCategoryChange}

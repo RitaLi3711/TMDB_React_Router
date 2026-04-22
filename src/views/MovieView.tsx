@@ -43,7 +43,7 @@ export const MovieView = () => {
 
   return (
     <div
-      className="fixed inset-0 bg-black/70 z-50 overflow-y-auto"
+      className="fixed inset-0 bg-black/50 backdrop-blur-md z-50 overflow-y-auto"
       onClick={closeModal}
     >
       <div

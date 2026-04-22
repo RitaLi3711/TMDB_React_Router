@@ -1,31 +1,43 @@
 import { IMAGE_BASE_URL } from '@/core/constants';
-import type { GridData } from '@/core/types';
 import { Link } from 'react-router-dom';
 
 type ImageGridProps = {
-  results: GridData[] | null;
+  results: Array<{
+    id: number;
+    imagePath: string | null;
+    primaryText: string;
+    secondaryText?: string;
+  }>;
   getHref?: (id: number) => string;
 };
 
 export const ImageGrid = ({ results, getHref }: ImageGridProps) => {
   return (
-    <div className="grid grid-cols-[repeat(auto-fill,_minmax(180px,1fr))] gap-6">
-      {results?.map((result) => {
+    <div className="grid grid-cols-[repeat(auto-fill,_minmax(260px,1fr))] gap-5">
+      {results.map((result) => {
         const content = (
           <>
-            <img className="w-full h-[280px] object-cover" src={`${IMAGE_BASE_URL}${result.imagePath}`} />
+            <img className="w-full h-[390px] object-cover" src={`${IMAGE_BASE_URL}${result.imagePath}`} alt={result.primaryText} />
             <div className="p-3 text-center">
               <p className="text-sm font-semibold truncate">{result.primaryText}</p>
               {result.secondaryText && <p className="text-gray-400 text-xs">{result.secondaryText}</p>}
             </div>
           </>
         );
+        
         return getHref ? (
-          <Link key={result.id} to={getHref(result.id)} className="block bg-gray-800 rounded-lg overflow-hidden hover:scale-105 transition">
+          <Link
+            key={result.id}
+            to={getHref(result.id)}
+            className="block bg-gray-800 rounded-lg overflow-hidden hover:scale-[1.02] transition"
+          >
             {content}
           </Link>
         ) : (
-          <div key={result.id} className="block bg-gray-800 rounded-lg overflow-hidden">
+          <div
+            key={result.id}
+            className="block bg-gray-800 rounded-lg overflow-hidden cursor-pointer hover:scale-[1.02] transition"
+          >
             {content}
           </div>
         );
