@@ -47,7 +47,7 @@ export const MovieView = () => {
       onClick={closeModal}
     >
       <div
-        className="max-w-5xl mx-auto my-10 bg-[#0d1821] rounded-2xl shadow-2xl p-8 relative border border-[#344966]"
+        className="max-w-5xl mx-auto my-10 bg-[#0d1821] rounded-2xl shadow-2xl p-8 relative outline outline-4 outline-[#e6aace]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* BACKDROP IMAGE */}
