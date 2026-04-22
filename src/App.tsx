@@ -10,7 +10,7 @@ import {
   TrendingView,
 } from '@/views';
 
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 
 export const App = () => {
   return (
@@ -18,10 +18,12 @@ export const App = () => {
       <Route path="/" element={<HomeView />} />
 
       <Route element={<MainLayout />}>
-        <Route path="/movies" element={<MoviesView />} >
-          <Route path="credits" element={<CreditsView />} />
-          <Route path="reviews" element={<ReviewsView />} />
-        </Route>
+        <Route
+          path="/movies"
+          element={<Navigate to="/movies/category/now_playing" replace />}
+        />
+
+        <Route path="/movies/category/:interval" element={<MoviesView />} />
 
         <Route path="/search" element={<SearchView />} />
         <Route path="/trending" element={<TrendingView />} />

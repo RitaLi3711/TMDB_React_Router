@@ -5,11 +5,12 @@ export const Header = () => {
     <>
       <header className="bg-slate-800 border-b border-slate-700 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-5 py-3 flex items-center justify-between">
-          
           <div className="flex items-center gap-4">
             <h1 className="text-4xl font-bold text-white">TMDB Explorer</h1>
 
-            <Link to="/movies">Movies</Link>
+            <Link to="/movies/category/now_playing" match={['/movies']}>
+              Movies
+            </Link>
             <Link to="/tv">TV</Link>
             <Link to="/trending?interval=day">Trending</Link>
             <Link to="/genre">Genre</Link>
@@ -22,20 +23,14 @@ export const Header = () => {
               className="w-64 px-5 py-3 rounded-2xl bg-slate-700 text-white outline-none placeholder:text-gray-400"
             />
 
-            <button className="px-6 py-3 rounded-2xl bg-blue-600 text-white font-medium">
-              Movies
-            </button>
+            <button className="px-6 py-3 rounded-2xl bg-blue-600 text-white font-medium">Movies</button>
 
-            <button className="px-6 py-3 rounded-2xl bg-slate-700 text-white font-medium">
-              TV
-            </button>
+            <button className="px-6 py-3 rounded-2xl bg-slate-700 text-white font-medium">TV</button>
 
-            <button className="px-6 py-3 rounded-2xl bg-slate-700 text-white font-medium">
-              Person
-            </button>
+            <button className="px-6 py-3 rounded-2xl bg-slate-700 text-white font-medium">Person</button>
           </div>
         </div>
       </header>
-      </>
+    </>
   );
 };

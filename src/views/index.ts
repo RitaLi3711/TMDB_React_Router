@@ -1,11 +1,9 @@
 export * from '@/views/ErrorView';
 export * from '@/views/HomeView';
-export * from '@/views/movies/CreditsView';
-export * from '@/views/movies/MovieView';
-export * from '@/views/movies/MoviesView';
-export * from '@/views/movies/ReviewsView';
-export * from '@/views/movies/TrendingView';
 export * from '@/views/SearchView';
-export * from '@/views/movies/PopularView';
-export * from '@/views/movies/TopRatedView';
-export * from '@/views/movies/UpcomingView';
+
+export * from '@/views/movies/MoviesView';
+export * from '@/views/movies/TrendingView';
+
+export * from '@/views/movies/CreditsView';
+export * from '@/views/movies/ReviewsView';
