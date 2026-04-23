@@ -1,6 +1,6 @@
 import { ButtonGroup, ImageGrid, Pagination } from '@/components';
 import { MOVIES_VIEW_ENDPOINT } from '@/core/constants';
-import type { MediaResponse } from '@/core/types';
+import type { MoviesResponse } from '@/core/types';
 import { useTmdb } from '@/hooks';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -14,7 +14,7 @@ export const MoviesView = () => {
   // keep fallback safe
   const category = interval ?? 'now_playing';
 
-  const { data } = useTmdb<MediaResponse>(
+  const { data } = useTmdb<MoviesResponse>(
     `${MOVIES_VIEW_ENDPOINT}/${category}`,
     { page },
     [category, page]

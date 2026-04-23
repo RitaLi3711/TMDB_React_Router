@@ -1,5 +1,6 @@
 import { ButtonGroup, ImageGrid, Pagination } from '@/components';
 import { TV_VIEW_ENDPOINT } from '@/core/constants';
+import type { TelevisionResponse } from '@/core/types';
 import { useTmdb } from '@/hooks';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -13,7 +14,7 @@ export const TelevisionView = () => {
   // keep fallback safe
   const category = interval ?? 'airing_today';
 
-  const { data } = useTmdb<any>(
+  const { data } = useTmdb< TelevisionResponse>(
     `${TV_VIEW_ENDPOINT}/${category}`,
     { page },
     [category, page]

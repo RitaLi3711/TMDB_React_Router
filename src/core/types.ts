@@ -52,14 +52,23 @@ export type SearchResponse = {
   total_results: number;
 };
 
-export type TVDetailResponse = {
+export type TelevisionResponse = {
+  results: Array<{
+    id: number;
+    original_title: string;
+    poster_path: string;
+  }>;
+  total_pages: number;
+};
+
+export type SeasonsResponse = {
   id: number;
   name: string;
   overview: string;
   poster_path: string;
   backdrop_path: string;
-  first_air_date: string;
-  seasons: Array<{
+  air_date: string;
+  results: Array<{
     id: number;
     name: string;
     season_number: number;
@@ -74,19 +83,4 @@ export type TVDetailResponse = {
       type: string;
     }>;
   };
-};
-
-export type SeasonDetailResponse = {
-  id: number;
-  name: string;
-  overview: string;
-  season_number: number;
-  episodes: Array<{
-    id: number;
-    name: string;
-    episode_number: number;
-    still_path: string | null;
-    overview: string;
-    air_date: string;
-  }>;
 };
