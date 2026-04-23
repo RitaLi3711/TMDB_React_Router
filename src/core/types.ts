@@ -1,18 +1,28 @@
-export type GridData = {
-  id: number;
-  imagePath: string | null;
-  primaryText: string;
-  secondaryText?: string;
-};
-
-export type MediaResponse = {
+export type MoviesResponse = {
   results: Array<{
     id: number;
-    original_title?: string;  
-    name?: string;            
+    original_title: string;
     poster_path: string;
   }>;
   total_pages: number;
+};
+
+export type MovieRepsonse = {
+  id: number;
+  title: string;
+  overview: string;
+  poster_path: string;
+  backdrop_path: string;
+  release_date: string;
+  vote_average: string;
+  videos?: {
+    results: Array<{
+      key: string;
+      name: string;
+      site: string;
+      type: string;
+    }>;
+  };
 };
 
 export type CreditsResponse = {
@@ -22,23 +32,6 @@ export type CreditsResponse = {
     profile_path: string | null;
     character: string;
   }>;
-};
-
-export type DetailRepsonse = {
-  id: number;
-  title: string;
-  overview: string;
-  poster_path: string;
-  backdrop_path: string;
-  release_date: string;
-  videos?: {
-    results: Array<{
-      key: string;
-      name: string;
-      site: string;
-      type: string;
-    }>;
-  };
 };
 
 export type ReviewsResponse = {
@@ -59,7 +52,6 @@ export type SearchResponse = {
   total_results: number;
 };
 
-// core/types.ts - Add these types
 export type TVDetailResponse = {
   id: number;
   name: string;

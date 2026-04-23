@@ -13,11 +13,11 @@ type ImageGridProps = {
 
 export const ImageGrid = ({ results, getHref }: ImageGridProps) => {
   return (
-    <div className="grid grid-cols-[repeat(auto-fill,_minmax(260px,1fr))] gap-5">
+    <div className="grid grid-cols-[repeat(auto-fill,_minmax(200px,1fr))] gap-5">
       {results.map((result) => {
         const content = (
           <>
-            <img className="w-full h-[390px] object-cover" src={`${IMAGE_BASE_URL}${result.imagePath}`} alt={result.primaryText} />
+            <img className="w-full h-[280px] object-cover" src={`${IMAGE_BASE_URL}${result.imagePath}`} alt={result.primaryText} />
             <div className="p-3 text-center">
               <p className="text-sm font-semibold truncate text-[#f0f4ef]">{result.primaryText}</p>
               {result.secondaryText && <p className="text-[#bfcc94] text-xs">{result.secondaryText}</p>}
