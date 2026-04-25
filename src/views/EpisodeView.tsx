@@ -1,4 +1,4 @@
-import { TV_VIEW_ENDPOINT, IMAGE_BASE_URL } from '@/core/constants';
+import { TV_VIEW_ENDPOINT } from '@/core/constants';
 import { useTmdb } from '@/hooks';
 import { FaArrowLeft, FaCalendarAlt } from 'react-icons/fa';
 import { useParams, useNavigate } from 'react-router-dom';
