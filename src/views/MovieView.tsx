@@ -33,7 +33,6 @@ export const MovieView = () => {
   ];
   
   if (!isMovie) {
-    // For TV shows, put Seasons first on the left
     options = [
       { label: 'Seasons', to: 'seasons' },
       { label: 'Credits', to: 'credits' },
@@ -43,11 +42,8 @@ export const MovieView = () => {
   }
 
   const handleClose = () => {
-    if (isMovie) {
-      navigate('/movies');
-    } else {
-      navigate('/tv');
-    }
+    // Go back to previous page instead of always going to /movies or /tv
+    navigate(-1);
   };
 
   return (

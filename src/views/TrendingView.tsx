@@ -31,12 +31,12 @@ export const TrendingView = () => {
     return <p className="text-center text-gray-400">Loading trending...</p>;
   }
 
-  // Format data for ImageGrid
+  // Format data for ImageGrid - NO emoji, NO "Movie"/"TV Show" text
   const gridData = data.results?.map((item: TrendingItem) => ({
     id: item.id,
     imagePath: item.poster_path,
     primaryText: item.title || item.name || '',
-    secondaryText: item.media_type === 'movie' ? '🎬 Movie' : '📺 TV Show',
+    secondaryText: '', // Empty - no tag at all
   })) || [];
 
   return (
@@ -51,7 +51,7 @@ export const TrendingView = () => {
           }}
           options={[
             { label: 'Movies', value: 'movie' },
-            { label: 'TV Shows', value: 'tv' },
+            { label: 'TV', value: 'tv' },  // Changed from "TV Shows" to "TV"
           ]}
         />
         
