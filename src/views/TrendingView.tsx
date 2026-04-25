@@ -1,4 +1,4 @@
-import { ButtonGroup, ImageGrid, Pagination } from '@/components';
+import { ButtonGroup, ImageGrid } from '@/components';
 import { useTmdb } from '@/hooks';
 import { useState } from 'react';
 
@@ -19,25 +19,27 @@ interface TrendingResponse {
 export const TrendingView = () => {
   const [mediaType, setMediaType] = useState<'movie' | 'tv'>('movie');
   const [timeWindow, setTimeWindow] = useState<'day' | 'week'>('day');
-  const [page, setPage] = useState(1);
 
   const { data } = useTmdb<TrendingResponse>(
     `https://api.themoviedb.org/3/trending/${mediaType}/${timeWindow}`,
-    { page },
-    [mediaType, timeWindow, page]
+    {},
+    [mediaType, timeWindow]
   );
 
   if (!data) {
     return <p className="text-center text-gray-400">Loading trending...</p>;
   }
 
-  // Format data for ImageGrid - NO emoji, NO "Movie"/"TV Show" text
-  const gridData = data.results?.map((item: TrendingItem) => ({
+  // Limit to first 20 results
+  const limitedResults = data.results?.slice(0, 20) || [];
+
+  // Format data for ImageGrid
+  const gridData = limitedResults.map((item: TrendingItem) => ({
     id: item.id,
     imagePath: item.poster_path,
     primaryText: item.title || item.name || '',
-    secondaryText: '', // Empty - no tag at all
-  })) || [];
+    secondaryText: '',
+  }));
 
   return (
     <section className="max-w-[1600px] mx-auto p-5 space-y-5">
@@ -47,11 +49,10 @@ export const TrendingView = () => {
           value={mediaType}
           onClick={(value) => {
             setMediaType(value as 'movie' | 'tv');
-            setPage(1);
           }}
           options={[
             { label: 'Movies', value: 'movie' },
-            { label: 'TV', value: 'tv' },  // Changed from "TV Shows" to "TV"
+            { label: 'TV', value: 'tv' },
           ]}
         />
         
@@ -60,7 +61,6 @@ export const TrendingView = () => {
           value={timeWindow}
           onClick={(value) => {
             setTimeWindow(value as 'day' | 'week');
-            setPage(1);
           }}
           options={[
             { label: 'Day', value: 'day' },
@@ -75,12 +75,6 @@ export const TrendingView = () => {
           const item = data.results?.find((i: TrendingItem) => i.id === id);
           return item?.media_type === 'movie' ? `/movies/${id}` : `/tv/${id}`;
         }}
-      />
-
-      <Pagination
-        page={page}
-        maxPages={data.total_pages}
-        onClick={setPage}
       />
     </section>
   );
