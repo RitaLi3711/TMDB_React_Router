@@ -1,5 +1,5 @@
 import { ButtonGroup, ImageGrid, Pagination } from '@/components';
-import { MOVIES_VIEW_ENDPOINT } from '@/core/constants';
+import { MOVIE_ENDPOINT } from '@/core/constants';
 import type { MoviesResponse } from '@/core/types';
 import { useTmdb } from '@/hooks';
 import { useState } from 'react';
@@ -8,14 +8,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 export const MoviesView = () => {
   const { interval } = useParams();
   const navigate = useNavigate();
-
   const [page, setPage] = useState(1);
 
-  // keep fallback safe
   const category = interval ?? 'now_playing';
 
   const { data } = useTmdb<MoviesResponse>(
-    `${MOVIES_VIEW_ENDPOINT}/${category}`,
+    `${MOVIE_ENDPOINT}/${category}`,
     { page },
     [category, page]
   );
@@ -32,7 +30,7 @@ export const MoviesView = () => {
   };
 
   if (!data) {
-    return <p className="text-center text-[#f0f4ef]">Loading...</p>;
+    return <p className="text-center text-gray-400">Loading...</p>;
   }
 
   return (
@@ -48,16 +46,9 @@ export const MoviesView = () => {
         ]}
       />
 
-      <ImageGrid
-        results={gridData}
-        getHref={(id) => `/movies/${id}`}
-      />
+      <ImageGrid results={gridData} getHref={(id) => `/movies/${id}`} />
 
-      <Pagination
-        page={page}
-        maxPages={data.total_pages}
-        onClick={setPage}
-      />
+      <Pagination page={page} maxPages={data.total_pages} onClick={setPage} />
     </section>
   );
 };

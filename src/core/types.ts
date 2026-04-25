@@ -1,3 +1,4 @@
+// Existing types
 export type MoviesResponse = {
   results: Array<{
     id: number;
@@ -7,7 +8,7 @@ export type MoviesResponse = {
   total_pages: number;
 };
 
-export type MovieRepsonse = {
+export type MovieResponse = {
   id: number;
   title: string;
   overview: string;
@@ -55,25 +56,30 @@ export type SearchResponse = {
 export type TelevisionResponse = {
   results: Array<{
     id: number;
-    original_title: string;
+    original_name: string;
     poster_path: string;
+    name: string;
   }>;
   total_pages: number;
 };
 
-export type SeasonsResponse = {
+// ADD THIS NEW TYPE for TV Show Details
+export type TvDetailsResponse = {
   id: number;
   name: string;
   overview: string;
   poster_path: string;
   backdrop_path: string;
-  air_date: string;
-  results: Array<{
+  first_air_date: string;
+  vote_average: number;
+  seasons: Array<{
     id: number;
     name: string;
+    overview: string;
+    poster_path: string | null;
     season_number: number;
     episode_count: number;
-    poster_path: string | null;
+    air_date: string | null;
   }>;
   videos?: {
     results: Array<{
@@ -83,4 +89,22 @@ export type SeasonsResponse = {
       type: string;
     }>;
   };
+};
+
+// ADD THIS TYPE for Episodes
+export type EpisodesResponse = {
+  id: number;
+  name: string;
+  overview: string;
+  episodes: Array<{
+    id: number;
+    name: string;
+    overview: string;
+    still_path: string | null;
+    episode_number: number;
+    season_number: number;
+    air_date: string;
+    runtime: number;
+    vote_average: number;
+  }>;
 };

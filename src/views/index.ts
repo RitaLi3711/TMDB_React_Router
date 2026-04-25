@@ -9,3 +9,4 @@ export * from '@/views/TelevisionView';
 export * from '@/views/TrendingView';
 export * from '@/views/SeasonsView';
 export * from '@/views/EpisodeView';
+export * from '@/views/TrailersView';
