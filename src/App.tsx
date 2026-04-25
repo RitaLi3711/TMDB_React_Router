@@ -10,6 +10,7 @@ import {
   TelevisionView,
   TrendingView,
   SeasonsView,
+  EpisodeView,
   TrailersView,
 } from '@/views';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
@@ -38,11 +39,12 @@ export const App = () => {
         </Route>
 
         <Route path="tv/:id" element={<MovieView />}>
-          <Route index element={<Navigate to="seasons" replace />} />  
+          <Route index element={<Navigate to="seasons" replace />} />
           <Route path="credits" element={<CreditsView />} />
           <Route path="trailers" element={<TrailersView />} />
           <Route path="reviews" element={<ReviewsView />} />
           <Route path="seasons" element={<SeasonsView />} />
+          <Route path="seasons/:seasonNumber/episodes" element={<EpisodeView />} />
         </Route>
 
         <Route path="*" element={<ErrorView />} />
