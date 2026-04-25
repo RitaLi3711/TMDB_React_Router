@@ -31,6 +31,8 @@ export const App = () => {
         <Route path="tv" element={<Navigate to="/tv/category/airing_today" replace />} />
         <Route path="tv/category/:interval" element={<TelevisionView />} />
 
+        <Route path="trending" element={<TrendingView />} />  
+
         <Route path="movies/:id" element={<MovieView />}>
           <Route index element={<Navigate to="credits" replace />} />
           <Route path="credits" element={<CreditsView />} />
@@ -38,14 +40,14 @@ export const App = () => {
           <Route path="reviews" element={<ReviewsView />} />
         </Route>
 
-       <Route path="tv/:id" element={<MovieView />}>
-  <Route index element={<Navigate to="seasons" replace />} />
-  <Route path="credits" element={<CreditsView />} />
-  <Route path="trailers" element={<TrailersView />} />
-  <Route path="reviews" element={<ReviewsView />} />
-  <Route path="seasons" element={<SeasonsView />} />
-  <Route path="season/:seasonNumber" element={<EpisodeView />} />  {/* Changed */}
-</Route>
+        <Route path="tv/:id" element={<MovieView />}>
+          <Route index element={<Navigate to="seasons" replace />} />
+          <Route path="credits" element={<CreditsView />} />
+          <Route path="trailers" element={<TrailersView />} />
+          <Route path="reviews" element={<ReviewsView />} />
+          <Route path="seasons" element={<SeasonsView />} />
+          <Route path="season/:seasonNumber" element={<EpisodeView />} />
+        </Route>
 
         <Route path="*" element={<ErrorView />} />
       </Route>

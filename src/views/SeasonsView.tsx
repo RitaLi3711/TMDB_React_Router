@@ -1,13 +1,11 @@
-import { TV_VIEW_ENDPOINT, IMAGE_BASE_URL } from '@/core/constants';
+import { TV_VIEW_ENDPOINT } from '@/core/constants';
 import type { TvDetailsResponse } from '@/core/types';
 import { useTmdb } from '@/hooks';
-import { FaCalendarAlt, FaTv } from 'react-icons/fa';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { ImageGrid } from '@/components';
 
 export const SeasonsView = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  
+  const { id } = useParams();  
   const { data } = useTmdb<TvDetailsResponse>(
     `${TV_VIEW_ENDPOINT}/${id}`,
     {},
@@ -18,56 +16,26 @@ export const SeasonsView = () => {
     return <p className="text-gray-400">Loading seasons...</p>;
   }
 
+  // Format seasons for ImageGrid
+  const seasonsData = data.seasons?.map((season) => ({
+    id: season.id,
+    imagePath: season.poster_path,
+    primaryText: season.name,
+    secondaryText: `${season.episode_count} episodes • ${season.air_date ? new Date(season.air_date).getFullYear() : 'TBA'}`,
+  })) || [];
+
   return (
     <div className="p-6 space-y-6 max-h-[90vh] overflow-y-auto">
-      <div className="flex items-center gap-4 mb-6">
-        <img 
-          src={`${IMAGE_BASE_URL}${data.poster_path}`} 
-          alt={data.name}
-          className="w-16 h-24 object-cover rounded-lg"
-        />
-        <div>
-          <h2 className="text-2xl font-bold">{data.name}</h2>
-          <p className="text-gray-400">All Seasons</p>
-        </div>
-      </div>
+      {/* Just the title - NO image, NO TV name, NO "All Seasons" */}
+      <h2 className="text-2xl font-bold">Seasons</h2>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {data.seasons?.map((season) => (
-          <div
-            key={season.id}
-            onClick={() => navigate(`/tv/${id}/season/${season.season_number}`)}
-            className="bg-gray-800 rounded-lg overflow-hidden hover:scale-105 transition-transform cursor-pointer"
-          >
-            {season.poster_path ? (
-              <img
-                src={`${IMAGE_BASE_URL}${season.poster_path}`}
-                alt={season.name}
-                className="w-full h-48 object-cover"
-              />
-            ) : (
-              <div className="w-full h-48 bg-gray-700 flex items-center justify-center">
-                <FaTv className="text-4xl text-gray-500" />
-              </div>
-            )}
-            <div className="p-4">
-              <h3 className="font-bold text-lg">{season.name}</h3>
-              <p className="text-gray-400 text-sm flex items-center gap-2 mt-1">
-                <FaCalendarAlt />
-                {season.air_date ? new Date(season.air_date).getFullYear() : 'TBA'}
-              </p>
-              <p className="text-gray-400 text-sm">
-                {season.episode_count} episodes
-              </p>
-              {season.overview && (
-                <p className="text-gray-300 text-sm mt-2 line-clamp-2">
-                  {season.overview}
-                </p>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
+      <ImageGrid 
+        results={seasonsData}
+        getHref={(id) => {
+          const season = data.seasons?.find(s => s.id === id);
+          return `/tv/${data.id}/season/${season?.season_number}`;
+        }}
+      />
     </div>
   );
 };

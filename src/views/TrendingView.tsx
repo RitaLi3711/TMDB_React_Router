@@ -1,37 +1,87 @@
-import { ButtonGroup, ImageGrid } from '@/components';
-import { TRENDING_ENDPOINT } from '@/core/constants';
-import type { MediaResponse } from '@/core/types';
+import { ButtonGroup, ImageGrid, Pagination } from '@/components';
 import { useTmdb } from '@/hooks';
-import { useSearchParams } from 'react-router-dom';
+import { useState } from 'react';
+
+interface TrendingItem {
+  id: number;
+  title?: string;
+  name?: string;
+  poster_path: string;
+  media_type: 'movie' | 'tv';
+}
+
+interface TrendingResponse {
+  results: TrendingItem[];
+  total_pages: number;
+  page: number;
+}
 
 export const TrendingView = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const interval = searchParams.get('interval') || 'day';
-  const { data } = useTmdb<MediaResponse>(`${TRENDING_ENDPOINT}/${interval}`, {}, [interval]);
+  const [mediaType, setMediaType] = useState<'movie' | 'tv'>('movie');
+  const [timeWindow, setTimeWindow] = useState<'day' | 'week'>('day');
+  const [page, setPage] = useState(1);
 
-  const gridData = (data?.results ?? []).map((result) => ({
-    id: result.id,
-    imagePath: result.poster_path,
-    primaryText: result.original_title || '', // Added fallback empty string
-  }));
+  const { data } = useTmdb<TrendingResponse>(
+    `https://api.themoviedb.org/3/trending/${mediaType}/${timeWindow}`,
+    { page },
+    [mediaType, timeWindow, page]
+  );
 
   if (!data) {
-    return <p className="text-center text-[#f0f4ef]">Loading...</p>;
+    return <p className="text-center text-gray-400">Loading trending...</p>;
   }
+
+  // Format data for ImageGrid
+  const gridData = data.results?.map((item: TrendingItem) => ({
+    id: item.id,
+    imagePath: item.poster_path,
+    primaryText: item.title || item.name || '',
+    secondaryText: item.media_type === 'movie' ? '🎬 Movie' : '📺 TV Show',
+  })) || [];
 
   return (
     <section className="max-w-[1600px] mx-auto p-5 space-y-5">
-      <ButtonGroup
-        value={interval}
-        onClick={(value: string) => {
-          setSearchParams({ interval: value });
+      {/* Media Type Buttons */}
+      <div className="flex justify-between items-center">
+        <ButtonGroup
+          value={mediaType}
+          onClick={(value) => {
+            setMediaType(value as 'movie' | 'tv');
+            setPage(1);
+          }}
+          options={[
+            { label: 'Movies', value: 'movie' },
+            { label: 'TV Shows', value: 'tv' },
+          ]}
+        />
+        
+        {/* Time Window Buttons */}
+        <ButtonGroup
+          value={timeWindow}
+          onClick={(value) => {
+            setTimeWindow(value as 'day' | 'week');
+            setPage(1);
+          }}
+          options={[
+            { label: 'Day', value: 'day' },
+            { label: 'Week', value: 'week' },
+          ]}
+        />
+      </div>
+
+      <ImageGrid
+        results={gridData}
+        getHref={(id) => {
+          const item = data.results?.find((i: TrendingItem) => i.id === id);
+          return item?.media_type === 'movie' ? `/movies/${id}` : `/tv/${id}`;
         }}
-        options={[
-          { label: 'Day', value: 'day' },
-          { label: 'Week', value: 'week' },
-        ]}
       />
-      <ImageGrid results={gridData} getHref={(id) => `/movie/${id}`} />
+
+      <Pagination
+        page={page}
+        maxPages={data.total_pages}
+        onClick={setPage}
+      />
     </section>
   );
 };
