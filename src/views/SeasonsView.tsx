@@ -36,7 +36,7 @@ export const SeasonsView = () => {
         {data.seasons?.map((season) => (
           <div
             key={season.id}
-            onClick={() => navigate(`/tv/${id}/seasons/${season.season_number}/episodes`)}
+            onClick={() => navigate(`/tv/${id}/season/${season.season_number}`)}
             className="bg-gray-800 rounded-lg overflow-hidden hover:scale-105 transition-transform cursor-pointer"
           >
             {season.poster_path ? (

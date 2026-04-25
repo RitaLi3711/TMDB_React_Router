@@ -38,14 +38,14 @@ export const App = () => {
           <Route path="reviews" element={<ReviewsView />} />
         </Route>
 
-        <Route path="tv/:id" element={<MovieView />}>
-          <Route index element={<Navigate to="seasons" replace />} />
-          <Route path="credits" element={<CreditsView />} />
-          <Route path="trailers" element={<TrailersView />} />
-          <Route path="reviews" element={<ReviewsView />} />
-          <Route path="seasons" element={<SeasonsView />} />
-          <Route path="seasons/:seasonNumber/episodes" element={<EpisodeView />} />
-        </Route>
+       <Route path="tv/:id" element={<MovieView />}>
+  <Route index element={<Navigate to="seasons" replace />} />
+  <Route path="credits" element={<CreditsView />} />
+  <Route path="trailers" element={<TrailersView />} />
+  <Route path="reviews" element={<ReviewsView />} />
+  <Route path="seasons" element={<SeasonsView />} />
+  <Route path="season/:seasonNumber" element={<EpisodeView />} />  {/* Changed */}
+</Route>
 
         <Route path="*" element={<ErrorView />} />
       </Route>
