@@ -11,3 +11,4 @@ export * from '@/views/SeasonsView';
 export * from '@/views/EpisodeView';
 export * from '@/views/TrailersView';
 export * from '@/views/GenreView';  
+export * from '@/views/SearchView';

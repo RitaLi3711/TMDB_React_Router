@@ -36,6 +36,8 @@ export const App = () => {
         
         <Route path="genre" element={<GenreView />} />  {/* Add this line */}
 
+               <Route path="search" element={<SearchView />} />
+
         <Route path="movies/:id" element={<MovieView />}>
           <Route index element={<Navigate to="credits" replace />} />
           <Route path="credits" element={<CreditsView />} />

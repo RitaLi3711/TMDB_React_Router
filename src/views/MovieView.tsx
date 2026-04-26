@@ -42,7 +42,6 @@ export const MovieView = () => {
   }
 
   const handleClose = () => {
-    // Go back to previous page instead of always going to /movies or /tv
     navigate(-1);
   };
 

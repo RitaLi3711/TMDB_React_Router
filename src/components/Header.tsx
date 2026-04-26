@@ -1,6 +1,20 @@
 import { Link } from '@/components';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDebounce } from '@/hooks';
 
-export const Header = () => {
+export const Header = () => {  
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchType, setSearchType] = useState<'movie' | 'tv' | 'person'>('movie');
+  const debouncedQuery = useDebounce(searchQuery, 500);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (debouncedQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(debouncedQuery.trim())}&type=${searchType}`);
+    }
+  }, [debouncedQuery, searchType, navigate]);
+
   return (
     <header className="bg-[#0d1821] border-b border-[#344966] sticky top-0 z-50">
       <div className="flex items-center justify-between gap-20 px-4 py-4">
@@ -15,7 +29,7 @@ export const Header = () => {
             TV
           </Link>
           
-          <Link to="/trending?interval=day">
+          <Link to="/trending">
             Trending
           </Link>
           
@@ -27,19 +41,45 @@ export const Header = () => {
         <div className="flex items-center gap-4">
           <input
             type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search..."
-            className="w-64 px-5 py-3 rounded-2xl bg-[#344966] text-[#f0f4ef] outline-none placeholder:text-[#bfcc94]"
+            className="w-80 px-5 py-3 rounded-2xl bg-[#344966] text-[#f0f4ef] outline-none placeholder:text-[#bfcc94] focus:ring-2 focus:ring-[#bfcc94]"
           />
 
-          <button className="px-6 py-3 rounded-2xl bg-[#e6aace] text-[#0d1821] font-medium hover:bg-[#d495b8] transition">
+          <button
+            type="button"
+            onClick={() => setSearchType('movie')}
+            className={`px-6 py-3 rounded-2xl transition ${
+              searchType === 'movie'
+                ? 'bg-[#bfcc94] text-[#0d1821] font-medium'
+                : 'bg-[#344966] text-[#f0f4ef] hover:bg-[#2a3b52]'
+            }`}
+          >
             Movies
           </button>
 
-          <button className="px-6 py-3 rounded-2xl bg-[#344966] text-[#f0f4ef] font-medium hover:bg-[#2a3b52] transition">
+          <button
+            type="button"
+            onClick={() => setSearchType('tv')}
+            className={`px-6 py-3 rounded-2xl transition ${
+              searchType === 'tv'
+                ? 'bg-[#bfcc94] text-[#0d1821] font-medium'
+                : 'bg-[#344966] text-[#f0f4ef] hover:bg-[#2a3b52]'
+            }`}
+          >
             TV
           </button>
 
-          <button className="px-6 py-3 rounded-2xl bg-[#344966] text-[#f0f4ef] font-medium hover:bg-[#2a3b52] transition">
+          <button
+            type="button"
+            onClick={() => setSearchType('person')}
+            className={`px-6 py-3 rounded-2xl transition ${
+              searchType === 'person'
+                ? 'bg-[#bfcc94] text-[#0d1821] font-medium'
+                : 'bg-[#344966] text-[#f0f4ef] hover:bg-[#2a3b52]'
+            }`}
+          >
             Person
           </button>
         </div>

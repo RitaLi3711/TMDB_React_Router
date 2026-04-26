@@ -16,7 +16,6 @@ export const SeasonsView = () => {
     return <p className="text-gray-400">Loading seasons...</p>;
   }
 
-  // Format seasons for ImageGrid
   const seasonsData = data.seasons?.map((season) => ({
     id: season.id,
     imagePath: season.poster_path,
@@ -26,7 +25,6 @@ export const SeasonsView = () => {
 
   return (
     <div className="p-6 space-y-6 max-h-[90vh] overflow-y-auto">
-      {/* Just the title - NO image, NO TV name, NO "All Seasons" */}
       <h2 className="text-2xl font-bold">Seasons</h2>
       
       <ImageGrid 
