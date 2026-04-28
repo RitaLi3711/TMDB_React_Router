@@ -8,21 +8,23 @@ export const Header = () => {
   const debouncedQuery = useDebounce(searchQuery, 500);
   const navigate = useNavigate();
   const location = useLocation();
-  const isNavigatingAway = useRef(false);
+  const isNavigating = useRef(false);
 
-  // Only trigger search when NOT manually navigating away
   useEffect(() => {
-    if (debouncedQuery.trim() && !isNavigatingAway.current) {
+    if (isNavigating.current) return;
+    
+    if (debouncedQuery.trim()) {
       navigate(`/search?q=${encodeURIComponent(debouncedQuery.trim())}&type=${searchType}`);
     }
   }, [debouncedQuery, searchType, navigate]);
 
   const handleNavClick = (path: string) => {
-    isNavigatingAway.current = true;
+    isNavigating.current = true;
+    setSearchQuery(''); // Clear the search input
     navigate(path);
-    // Reset the flag after navigation completes
+    // Reset after navigation
     setTimeout(() => {
-      isNavigatingAway.current = false;
+      isNavigating.current = false;
     }, 500);
   };
 
