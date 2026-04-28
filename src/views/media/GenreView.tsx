@@ -1,6 +1,8 @@
 import { ButtonGroup, ImageGrid, Pagination } from '@/components';
 import { useTmdb } from '@/hooks';
 import { useState } from 'react';
+import { IMAGE_BASE_URL, type ImageCell } from '@/core';
+import { useNavigate } from 'react-router-dom';
 
 interface GenreItem {
   id: number;
@@ -44,6 +46,7 @@ const tvGenres = [
 ];
 
 export const GenreView = () => {
+  const navigate = useNavigate();
   const [mediaType, setMediaType] = useState<'movie' | 'tv'>('movie');
   const [selectedGenre, setSelectedGenre] = useState<number>(28);
   const [page, setPage] = useState(1);
@@ -61,12 +64,16 @@ export const GenreView = () => {
     return <p className="text-center text-gray-400">Loading genres...</p>;
   }
 
-  const gridData = data.results?.map((item: GenreItem) => ({
+  const gridData: ImageCell[] = (data.results || []).map((item: GenreItem) => ({
     id: item.id,
-    imagePath: item.poster_path,
+    imageUrl: item.poster_path ? `${IMAGE_BASE_URL}${item.poster_path}` : '',
     primaryText: item.title || item.name || '',
     secondaryText: '',
-  })) || [];
+  }));
+
+  const handleClick = (id: number) => {
+    navigate(`/${mediaType === 'movie' ? 'movies' : 'tv'}/${id}`);
+  };
 
   const handleGenreChange = (value: string) => {
     setSelectedGenre(parseInt(value));
@@ -108,10 +115,7 @@ export const GenreView = () => {
         ))}
       </div>
 
-      <ImageGrid
-        results={gridData}
-        getHref={(id) => `/${mediaType === 'movie' ? 'movies' : 'tv'}/${id}`}
-      />
+      <ImageGrid results={gridData} onClick={handleClick} />
 
       <Pagination
         page={page}

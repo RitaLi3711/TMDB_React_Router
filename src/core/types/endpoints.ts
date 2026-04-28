@@ -45,8 +45,11 @@ export type ReviewsResponse = {
 export type SearchResponse = {
   results: Array<{
     id: number;
-    name: string;
-    profile_path: string | null;
+    title?: string;
+    name?: string;
+    poster_path?: string | null;
+    profile_path?: string | null;
+    media_type: string;
   }>;
   total_pages: number;
   total_results: number;

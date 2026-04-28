@@ -1,5 +1,5 @@
 import { ButtonGroup, ImageGrid, Pagination } from '@/components';
-import { MOVIE_ENDPOINT, type MoviesResponse } from '@/core';
+import { MOVIE_ENDPOINT, IMAGE_BASE_URL, type MoviesResponse, type ImageCell } from '@/core';
 import { useTmdb } from '@/hooks';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -17,15 +17,20 @@ export const MoviesView = () => {
     [category, page]
   );
 
-  const gridData = (data?.results ?? []).map((result) => ({
+  const gridData: ImageCell[] = (data?.results ?? []).map((result) => ({
     id: result.id,
-    imagePath: result.poster_path,
+    imageUrl: result.poster_path ? `${IMAGE_BASE_URL}${result.poster_path}` : '',
     primaryText: result.original_title || '',
+    secondaryText: '',
   }));
 
   const handleCategoryChange = (value: string) => {
     setPage(1);
     navigate(`/movies/category/${value}`);
+  };
+
+  const handleClick = (id: number) => {
+    navigate(`/movies/${id}`);
   };
 
   if (!data) {
@@ -45,7 +50,7 @@ export const MoviesView = () => {
         ]}
       />
 
-      <ImageGrid results={gridData} getHref={(id) => `/movies/${id}`} />
+      <ImageGrid results={gridData} onClick={handleClick} />
 
       <Pagination page={page} maxPages={data.total_pages} onClick={setPage} />
     </section>

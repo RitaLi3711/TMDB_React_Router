@@ -1,5 +1,6 @@
 import { ButtonGroup, ImageGrid, Pagination } from '@/components';
-import { TV_VIEW_ENDPOINT, type TelevisionResponse } from '@/core';import { useTmdb } from '@/hooks';
+import { TV_VIEW_ENDPOINT, IMAGE_BASE_URL, type TelevisionResponse, type ImageCell } from '@/core';
+import { useTmdb } from '@/hooks';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -12,21 +13,26 @@ export const TelevisionView = () => {
   // keep fallback safe
   const category = interval ?? 'airing_today';
 
-  const { data } = useTmdb< TelevisionResponse>(
+  const { data } = useTmdb<TelevisionResponse>(
     `${TV_VIEW_ENDPOINT}/${category}`,
     { page },
     [category, page]
   );
 
-  const gridData = (data?.results ?? []).map((result: any) => ({
+  const gridData: ImageCell[] = (data?.results ?? []).map((result) => ({
     id: result.id,
-    imagePath: result.poster_path,
-    primaryText: result.name || result.original_title || '',
+    imageUrl: result.poster_path ? `${IMAGE_BASE_URL}${result.poster_path}` : '',
+    primaryText: result.name || result.original_name || '',  // ← changed from original_title
+    secondaryText: '',
   }));
 
   const handleCategoryChange = (value: string) => {
     setPage(1);
     navigate(`/tv/category/${value}`);
+  };
+
+  const handleClick = (id: number) => {
+    navigate(`/tv/${id}`);
   };
 
   if (!data) {
@@ -48,7 +54,7 @@ export const TelevisionView = () => {
 
       <ImageGrid
         results={gridData}
-        getHref={(id) => `/tv/${id}`}
+        onClick={handleClick}
       />
 
       <Pagination

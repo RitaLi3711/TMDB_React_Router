@@ -1,6 +1,8 @@
 import { ButtonGroup, ImageGrid } from '@/components';
 import { useTmdb } from '@/hooks';
 import { useState } from 'react';
+import { IMAGE_BASE_URL, type ImageCell } from '@/core';
+import { useNavigate } from 'react-router-dom';
 
 interface TrendingItem {
   id: number;
@@ -17,6 +19,7 @@ interface TrendingResponse {
 }
 
 export const TrendingView = () => {
+  const navigate = useNavigate();
   const [mediaType, setMediaType] = useState<'movie' | 'tv'>('movie');
   const [timeWindow, setTimeWindow] = useState<'day' | 'week'>('day');
 
@@ -33,13 +36,24 @@ export const TrendingView = () => {
   // Limit to first 20 results
   const limitedResults = data.results?.slice(0, 20) || [];
 
-  // Format data for ImageGrid
-  const gridData = limitedResults.map((item: TrendingItem) => ({
-    id: item.id,
-    imagePath: item.poster_path,
-    primaryText: item.title || item.name || '',
-    secondaryText: '',
-  }));
+  // Store media types for navigation
+  const mediaTypeMap = new Map<number, 'movie' | 'tv'>();
+  
+  // Format data for ImageGrid as ImageCell[]
+  const gridData: ImageCell[] = limitedResults.map((item: TrendingItem) => {
+    mediaTypeMap.set(item.id, item.media_type);
+    return {
+      id: item.id,
+      imageUrl: item.poster_path ? `${IMAGE_BASE_URL}${item.poster_path}` : '',
+      primaryText: item.title || item.name || '',
+      secondaryText: '',
+    };
+  });
+
+  const handleClick = (id: number) => {
+    const type = mediaTypeMap.get(id);
+    navigate(type === 'movie' ? `/movies/${id}` : `/tv/${id}`);
+  };
 
   return (
     <section className="max-w-[1600px] mx-auto p-5 space-y-5">
@@ -69,13 +83,7 @@ export const TrendingView = () => {
         />
       </div>
 
-      <ImageGrid
-        results={gridData}
-        getHref={(id) => {
-          const item = data.results?.find((i: TrendingItem) => i.id === id);
-          return item?.media_type === 'movie' ? `/movies/${id}` : `/tv/${id}`;
-        }}
-      />
+      <ImageGrid results={gridData} onClick={handleClick} />
     </section>
   );
 };
