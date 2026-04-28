@@ -1,14 +1,15 @@
 import { ImageGrid, Pagination } from '@/components';
 import { useTmdb } from '@/hooks';
-import { useSearchParams, useNavigate } from 'react-router-dom'; // Add useNavigate
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { FaFrown } from 'react-icons/fa';
 import { IMAGE_BASE_URL, type ImageCell } from '@/core';
 
 export const SearchView = () => {
-  const navigate = useNavigate(); // Add this
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const query = searchParams.get('q') || '';
+  const type = searchParams.get('type') || 'movie';
   const [page, setPage] = useState(1);
 
   const { data } = useTmdb<{
@@ -23,31 +24,35 @@ export const SearchView = () => {
     total_pages: number;
     total_results: number;
   }>(
-    query ? `https://api.themoviedb.org/3/search/multi?query=${query}&page=${page}` : '',
+    query ? `https://api.themoviedb.org/3/search/${type}?query=${query}&page=${page}` : '',
     query ? {} : {},
-    [query, page]
+    [query, type, page]
   );
 
   const mediaTypeMap = new Map<number, string>();
   
   const gridData: ImageCell[] = (data?.results ?? [])
-    .filter((item) => item.poster_path || item.profile_path)
+    .filter((item) => {
+      if (type === 'person') return item.profile_path;
+      return item.poster_path;
+    })
     .map((item) => {
-      const imagePath = (item.poster_path || item.profile_path) ?? '';
-      mediaTypeMap.set(item.id, item.media_type);
+      const imagePath = type === 'person' ? item.profile_path : item.poster_path;
+      const imageUrl = imagePath ? `${IMAGE_BASE_URL}${imagePath}` : '';
+      mediaTypeMap.set(item.id, type === 'person' ? 'person' : type);
       return {
         id: item.id,
-        imageUrl: `${IMAGE_BASE_URL}${imagePath}`,
+        imageUrl,
         primaryText: item.title || item.name || '',
-        secondaryText: item.media_type,
+        secondaryText: '', // ← Empty, no type text under images
       };
     });
 
   const handleClick = (id: number) => {
     const mediaType = mediaTypeMap.get(id);
-    if (mediaType === 'movie') navigate(`/movies/${id}`);  // Changed to navigate
-    else if (mediaType === 'tv') navigate(`/tv/${id}`);   // Changed to navigate
-    else navigate(`/person/${id}`);                        // Changed to navigate
+    if (mediaType === 'movie') navigate(`/movies/${id}`);
+    else if (mediaType === 'tv') navigate(`/tv/${id}`);
+    else navigate(`/person/${id}`);
   };
 
   return (
