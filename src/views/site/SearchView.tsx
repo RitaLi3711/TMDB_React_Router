@@ -31,22 +31,17 @@ export const SearchView = () => {
 
   const mediaTypeMap = new Map<number, string>();
   
-  const gridData: ImageCell[] = (data?.results ?? [])
-    .filter((item) => {
-      if (type === 'person') return item.profile_path;
-      return item.poster_path;
-    })
-    .map((item) => {
-      const imagePath = type === 'person' ? item.profile_path : item.poster_path;
-      const imageUrl = imagePath ? `${IMAGE_BASE_URL}${imagePath}` : '';
-      mediaTypeMap.set(item.id, type === 'person' ? 'person' : type);
-      return {
-        id: item.id,
-        imageUrl,
-        primaryText: item.title || item.name || '',
-        secondaryText: '', // ← Empty, no type text under images
-      };
-    });
+  const gridData: ImageCell[] = (data?.results ?? []).map((item) => {
+    const imagePath = type === 'person' ? item.profile_path : item.poster_path;
+    const imageUrl = imagePath ? `${IMAGE_BASE_URL}${imagePath}` : '';
+    mediaTypeMap.set(item.id, type === 'person' ? 'person' : type);
+    return {
+      id: item.id,
+      imageUrl,
+      primaryText: item.title || item.name || '',
+      secondaryText: '',
+    };
+  });
 
   const handleClick = (id: number) => {
     const mediaType = mediaTypeMap.get(id);
