@@ -1,5 +1,4 @@
-import { MOVIE_ENDPOINT } from '@/core/constants';
-import type { ReviewsResponse } from '@/core/types';
+import { MOVIE_ENDPOINT, type ReviewsResponse } from '@/core';
 import { useTmdb } from '@/hooks';
 import { useParams } from 'react-router-dom';
 

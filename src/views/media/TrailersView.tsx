@@ -1,4 +1,4 @@
-import { MOVIE_ENDPOINT, TV_VIEW_ENDPOINT } from '@/core/constants';
+import { MOVIE_ENDPOINT, TV_VIEW_ENDPOINT } from '@/core';
 import { useTmdb } from '@/hooks';
 import { useParams, useLocation } from 'react-router-dom';
 

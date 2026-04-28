@@ -1,7 +1,5 @@
 import { ButtonGroup, ImageGrid, Pagination } from '@/components';
-import { TV_VIEW_ENDPOINT } from '@/core/constants';
-import type { TelevisionResponse } from '@/core/types';
-import { useTmdb } from '@/hooks';
+import { TV_VIEW_ENDPOINT, type TelevisionResponse } from '@/core';import { useTmdb } from '@/hooks';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 

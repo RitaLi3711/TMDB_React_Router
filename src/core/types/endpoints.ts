@@ -1,4 +1,3 @@
-// Existing types
 export type MoviesResponse = {
   results: Array<{
     id: number;
@@ -63,7 +62,6 @@ export type TelevisionResponse = {
   total_pages: number;
 };
 
-// ADD THIS NEW TYPE for TV Show Details
 export type TvDetailsResponse = {
   id: number;
   name: string;
@@ -91,7 +89,6 @@ export type TvDetailsResponse = {
   };
 };
 
-// ADD THIS TYPE for Episodes
 export type EpisodesResponse = {
   id: number;
   name: string;

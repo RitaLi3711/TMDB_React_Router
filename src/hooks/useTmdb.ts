@@ -1,4 +1,4 @@
-import { API_KEY } from '@/core/constants';
+import { API_KEY } from '@/core';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 

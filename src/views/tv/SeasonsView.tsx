@@ -1,5 +1,4 @@
-import { TV_VIEW_ENDPOINT } from '@/core/constants';
-import type { TvDetailsResponse } from '@/core/types';
+import { TV_VIEW_ENDPOINT, type TvDetailsResponse } from '@/core';
 import { useTmdb } from '@/hooks';
 import { useParams } from 'react-router-dom';
 import { ImageGrid } from '@/components';

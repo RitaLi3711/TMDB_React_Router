@@ -1,6 +1,5 @@
 import { LinkGroup, Modal } from '@/components';
-import { IMAGE_BASE_URL, MOVIE_ENDPOINT, TV_VIEW_ENDPOINT, ORIGINAL_IMAGE_BASE_URL } from '@/core/constants';
-import type { MovieResponse, TvDetailsResponse } from '@/core/types';
+import { IMAGE_BASE_URL, MOVIE_ENDPOINT, TV_VIEW_ENDPOINT, ORIGINAL_IMAGE_BASE_URL, type MovieResponse, type TvDetailsResponse } from '@/core';
 import { useTmdb } from '@/hooks';
 import { FaCalendarAlt } from 'react-icons/fa';
 import { Outlet, useNavigate, useParams, useLocation } from 'react-router-dom';

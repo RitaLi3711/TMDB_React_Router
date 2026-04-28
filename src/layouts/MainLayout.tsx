@@ -1,15 +1,18 @@
-import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
-import { Outlet } from 'react-router-dom';
+import { Header } from '@/components/site/Header';
+import { Footer } from '@/components/site/Footer';
+import { Outlet, useLocation } from 'react-router-dom';
 
 export const MainLayout = () => {
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
+
   return (
     <div className="min-h-screen bg-[#0d1821] text-[#f0f4ef]">
-      <Header />
+      {!isHomePage && <Header />}
       <main>
         <Outlet />
       </main>
-       <Footer />
+      <Footer />
     </div>
   );
 };
