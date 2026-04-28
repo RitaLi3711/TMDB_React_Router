@@ -40,9 +40,13 @@ export const MovieView = () => {
     ];
   }
 
-  const handleClose = () => {
-    navigate(-1);
-  };
+const handleClose = () => {
+  if (isMovie) {
+    navigate('/movies/category/now_playing');
+  } else {
+    navigate('/tv/category/airing_today');
+  }
+};
 
   return (
     <Modal onClose={handleClose}>
