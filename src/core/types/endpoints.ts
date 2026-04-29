@@ -108,3 +108,44 @@ export type EpisodesResponse = {
     vote_average: number;
   }>;
 };
+
+type CreditBase = {
+  id: number;
+  title?: string;
+  name?: string;
+  media_type: 'movie' | 'tv';
+  poster_path: string | null;
+
+  popularity?: number;
+  vote_average?: number;
+  vote_count?: number;
+
+  release_date?: string;
+  first_air_date?: string;
+};
+
+export type PersonResponse = {
+  id: number;
+  name: string;
+  profile_path: string | null;
+  biography: string;
+  birthday: string | null;
+  deathday: string | null;
+  place_of_birth: string | null;
+  known_for_department: string;
+  also_known_as: string[];
+
+  combined_credits: {
+    cast: Array<
+      CreditBase & {
+        character: string;
+      }
+    >;
+
+    crew: Array<
+      CreditBase & {
+        job: string;
+      }
+    >;
+  };
+};

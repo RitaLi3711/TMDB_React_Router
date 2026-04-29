@@ -29,26 +29,27 @@ export const SearchView = () => {
     [query, type, page]
   );
 
-  const mediaTypeMap = new Map<number, string>();
-  
+  const handleClick = (id: number, mediaType: string) => {
+    if (mediaType === 'movie') {
+      navigate(`/movies/${id}`);
+    } else if (mediaType === 'tv') {
+      navigate(`/tv/${id}`);
+    } else if (mediaType === 'person') {
+      navigate(`/person/${id}`);
+    }
+  };
+
   const gridData: ImageCell[] = (data?.results ?? []).map((item) => {
     const imagePath = type === 'person' ? item.profile_path : item.poster_path;
     const imageUrl = imagePath ? `${IMAGE_BASE_URL}${imagePath}` : '';
-    mediaTypeMap.set(item.id, type === 'person' ? 'person' : type);
     return {
       id: item.id,
       imageUrl,
       primaryText: item.title || item.name || '',
       secondaryText: '',
+      mediaType: type === 'person' ? 'person' : type,
     };
   });
-
-  const handleClick = (id: number) => {
-    const mediaType = mediaTypeMap.get(id);
-    if (mediaType === 'movie') navigate(`/movies/${id}`);
-    else if (mediaType === 'tv') navigate(`/tv/${id}`);
-    else navigate(`/person/${id}`);
-  };
 
   return (
     <section className="max-w-[1600px] mx-auto p-5 space-y-5">
@@ -65,16 +66,25 @@ export const SearchView = () => {
         <p className="text-center text-[#f0f4ef]">Loading...</p>
       )}
 
-      {query && data && data.results.length === 0 && (
+      {query && data && (!data.results || data.results.length === 0) && (
         <div className="text-center py-12">
           <FaFrown className="w-16 h-16 mx-auto text-gray-600 mb-4" />
           <p className="text-gray-400 text-lg">No search results found</p>
         </div>
       )}
 
-      {query && data && data.results.length > 0 && (
+      {query && data && data.results && data.results.length > 0 && (
         <>
-          <ImageGrid results={gridData} onClick={handleClick} />
+          <ImageGrid 
+            results={gridData} 
+            onClick={(id) => {
+              const item = gridData.find(i => i.id === id);
+              if (item) {
+                const mediaType = type === 'person' ? 'person' : type;
+                handleClick(id, mediaType);
+              }
+            }}
+          />
           <Pagination page={page} maxPages={data.total_pages} onClick={setPage} />
         </>
       )}

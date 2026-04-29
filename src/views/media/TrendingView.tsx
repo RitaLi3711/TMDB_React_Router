@@ -1,4 +1,4 @@
-import { ButtonGroup, ImageGrid } from '@/components';
+import {  ImageGrid } from '@/components';
 import { useTmdb } from '@/hooks';
 import { useState, useEffect } from 'react';
 import { IMAGE_BASE_URL, type ImageCell } from '@/core';

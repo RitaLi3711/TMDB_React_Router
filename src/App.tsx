@@ -13,16 +13,18 @@ import {
   EpisodeView,
   TrailersView,
   GenreView,
+  PersonView,
+  CareerView,
+  ImagesView,
 } from '@/views';
+
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
 export const App = () => {
   const location = useLocation();
-  const state = location.state as { backgroundLocation?: Location };
-  const backgroundLocation = state?.backgroundLocation;
 
   return (
-    <Routes location={backgroundLocation || location}>
+    <Routes>
       <Route element={<MainLayout />}>
         <Route path="/" element={<HomeView />} />
 
@@ -32,13 +34,17 @@ export const App = () => {
         <Route path="tv" element={<Navigate to="/tv/category/airing_today" replace />} />
         <Route path="tv/category/:interval" element={<TelevisionView />} />
 
-<Route path="trending" element={<Navigate to="/trending/movie" replace />} />
-<Route path="trending/:mediaType" element={<TrendingView />} />
+        <Route path="trending" element={<Navigate to="/trending/movie" replace />} />
+        <Route path="trending/:mediaType" element={<TrendingView />} />
 
-<Route path="genre" element={<GenreView />} />
-<Route path="genre/:mediaType/:genreSlug" element={<GenreView />} />
+        <Route path="genre" element={<GenreView />} />
+        <Route path="genre/:mediaType/:genreSlug" element={<GenreView />} />
 
-               <Route path="search" element={<SearchView />} />
+        <Route path="search" element={<SearchView />} />
+
+        <Route path="person/:id" element={<PersonView />} />
+        <Route path="person/:id/career" element={<CareerView />} />
+        <Route path="person/:id/images" element={<ImagesView />} />
 
         <Route path="movies/:id" element={<MovieView />}>
           <Route index element={<Navigate to="credits" replace />} />
