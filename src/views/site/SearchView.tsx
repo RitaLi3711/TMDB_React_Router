@@ -68,13 +68,12 @@ export const SearchView = () => {
       {query && data && data.results.length === 0 && (
         <div className="text-center py-12">
           <FaFrown className="w-16 h-16 mx-auto text-gray-600 mb-4" />
-          <p className="text-gray-400 text-lg">No results found for "{query}"</p>
+          <p className="text-gray-400 text-lg">No search results found</p>
         </div>
       )}
 
       {query && data && data.results.length > 0 && (
         <>
-          <p className="text-gray-400">Found {data.total_results} results</p>
           <ImageGrid results={gridData} onClick={handleClick} />
           <Pagination page={page} maxPages={data.total_pages} onClick={setPage} />
         </>

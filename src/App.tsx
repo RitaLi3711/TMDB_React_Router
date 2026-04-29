@@ -35,7 +35,8 @@ export const App = () => {
 <Route path="trending" element={<Navigate to="/trending/movie" replace />} />
 <Route path="trending/:mediaType" element={<TrendingView />} />
 
-        <Route path="genre" element={<GenreView />} />  {/* Add this line */}
+<Route path="genre" element={<GenreView />} />
+<Route path="genre/:mediaType/:genreSlug" element={<GenreView />} />
 
                <Route path="search" element={<SearchView />} />
 
