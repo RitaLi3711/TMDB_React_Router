@@ -28,6 +28,12 @@ export const Header = () => {
     }, 500);
   };
 
+  // Helper function to check if TV route is active (excluding trending/tv)
+  const isTvActive = () => {
+    const path = location.pathname;
+    return (path.startsWith('/tv/') || path === '/tv') && !path.startsWith('/trending/tv');
+  };
+
   return (
     <header className="bg-[#0d1821] border-b border-[#344966] sticky top-0 z-50">
       <div className="flex items-center justify-between gap-20 px-4 py-4">
@@ -53,7 +59,7 @@ export const Header = () => {
           <button
             onClick={() => handleNavClick('/tv/category/airing_today')}
             className={`px-4 py-2 rounded-md transition-all duration-200 border ${
-              location.pathname.includes('/tv')
+              isTvActive()
                 ? 'bg-[#e6aace] text-[#0d1821] border-[#e6aace] shadow-lg scale-105'
                 : 'bg-[#344966] text-[#f0f4ef] border-[#344966] hover:bg-[#2a3b52] hover:text-[#f0f4ef] hover:border-[#bfcc94]'
             }`}

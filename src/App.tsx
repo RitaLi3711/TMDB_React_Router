@@ -32,8 +32,9 @@ export const App = () => {
         <Route path="tv" element={<Navigate to="/tv/category/airing_today" replace />} />
         <Route path="tv/category/:interval" element={<TelevisionView />} />
 
-        <Route path="trending" element={<TrendingView />} />
-        
+<Route path="trending" element={<Navigate to="/trending/movie" replace />} />
+<Route path="trending/:mediaType" element={<TrendingView />} />
+
         <Route path="genre" element={<GenreView />} />  {/* Add this line */}
 
                <Route path="search" element={<SearchView />} />
