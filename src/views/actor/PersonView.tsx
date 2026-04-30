@@ -1,7 +1,7 @@
 import { IMAGE_BASE_URL, type PersonResponse } from '@/core';
 import { useTmdb } from '@/hooks';
-import { useParams, useNavigate, Link, useLocation } from 'react-router-dom';
-import { FaBirthdayCake, FaMapMarkerAlt, FaArrowLeft } from 'react-icons/fa';
+import { useParams, useNavigate, Link, useLocation, Outlet } from 'react-router-dom';
+import { FaBirthdayCake, FaMapMarkerAlt } from 'react-icons/fa';
 
 export const PersonView = () => {
   const { id } = useParams();
@@ -30,10 +30,14 @@ export const PersonView = () => {
 
   const department = person.known_for_department === 'Acting' ? '' : person.known_for_department;
 
+  const handleBack = () => {
+    navigate(-1);
+  };
+
   return (
     <div className="max-w-[1600px] mx-auto p-5">
       <button 
-        onClick={() => navigate('/search')}
+        onClick={handleBack}
         className="mb-4 px-4 py-2 rounded-md transition-all duration-200 border bg-[#344966] text-[#f0f4ef] border-[#344966] hover:bg-[#2a3b52] hover:text-[#f0f4ef] hover:border-[#bfcc94]"
       >
         ← Back
@@ -105,7 +109,8 @@ export const PersonView = () => {
         </Link>
       </div>
 
-      {/* Career and Images will render here as separate pages, not nested */}
+      {/* Nested routes will render here */}
+      <Outlet />
     </div>
   );
 };

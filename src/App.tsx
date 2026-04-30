@@ -42,9 +42,12 @@ export const App = () => {
 
         <Route path="search" element={<SearchView />} />
 
-        <Route path="person/:id" element={<PersonView />} />
-        <Route path="person/:id/career" element={<CareerView />} />
-        <Route path="person/:id/images" element={<ImagesView />} />
+        {/* Nested routes for PersonView */}
+        <Route path="person/:id" element={<PersonView />}>
+          <Route index element={<Navigate to="career" replace />} />
+          <Route path="career" element={<CareerView />} />
+          <Route path="images" element={<ImagesView />} />
+        </Route>
 
         <Route path="movies/:id" element={<MovieView />}>
           <Route index element={<Navigate to="credits" replace />} />

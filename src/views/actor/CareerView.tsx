@@ -37,7 +37,7 @@ export const CareerView = () => {
   };
 
   return (
-    <div className="mt-6 space-y-4">
+    <div className="space-y-4">
       <h2 className="text-xl font-bold text-[#f0f4ef]">
         Career ({credits.length})
       </h2>

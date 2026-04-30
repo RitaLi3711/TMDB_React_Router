@@ -34,7 +34,7 @@ export const ImagesView = () => {
   }
 
   return (
-    <div className="mt-6">
+    <>
       <h2 className="text-xl font-bold text-[#f0f4ef] mb-4">
         Images
       </h2>
@@ -48,6 +48,6 @@ export const ImagesView = () => {
           />
         ))}
       </div>
-    </div>
+    </>
   );
 };
