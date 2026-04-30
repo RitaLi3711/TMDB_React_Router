@@ -17,12 +17,9 @@ import {
   CareerView,
   ImagesView,
 } from '@/views';
-
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 export const App = () => {
-  const location = useLocation();
-
   return (
     <Routes>
       <Route element={<MainLayout />}>
@@ -49,7 +46,7 @@ export const App = () => {
           <Route path="images" element={<ImagesView />} />
         </Route>
 
-        <Route path="movies/:id" element={<MovieView />}>
+        <Route path="movie/:id" element={<MovieView />}>
           <Route index element={<Navigate to="credits" replace />} />
           <Route path="credits" element={<CreditsView />} />
           <Route path="trailers" element={<TrailersView />} />
