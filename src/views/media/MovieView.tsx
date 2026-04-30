@@ -41,13 +41,8 @@ export const MovieView = () => {
   }
 
   const handleClose = () => {
-    // Navigate directly to the category page, not back
-    if (isMovie) {
-      navigate('/movies/category/now_playing');
-    } else {
-      navigate('/tv/category/airing_today');
-    }
-  };
+   navigate(-1);
+  }
   
   return (
     <Modal onClose={handleClose}>
