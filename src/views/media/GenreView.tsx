@@ -1,7 +1,7 @@
 // views/media/GenreView.tsx
 import { Button, ButtonGroup, ImageGrid, Pagination } from '@/components';
 import { useTmdb } from '@/hooks';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { IMAGE_BASE_URL, type ImageCell } from '@/core';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -48,43 +48,11 @@ export const GenreView = () => {
   const navigate = useNavigate();
   const { mediaType: urlMediaType, genreSlug } = useParams();
   
-  const [mediaType, setMediaType] = useState<'movie' | 'tv'>(() => {
-    if (urlMediaType === 'tv' || urlMediaType === 'movie') return urlMediaType;
-    return 'movie';
-  });
-  
+  const mediaType = (urlMediaType === 'tv' || urlMediaType === 'movie') ? urlMediaType : 'movie';
   const genres = mediaType === 'movie' ? movieGenres : tvGenres;
-  
-  const [selectedGenre, setSelectedGenre] = useState<number>(() => {
-    if (genreSlug) {
-      const found = genres.find(g => g.slug === genreSlug);
-      if (found) return found.value;
-    }
-    return genres[0].value;
-  });
+  const selectedGenre = genreSlug ? genres.find(g => g.slug === genreSlug)?.value || genres[0].value : genres[0].value;
   
   const [page, setPage] = useState(1);
-
-  useEffect(() => {
-    const currentGenre = genres.find(g => g.value === selectedGenre);
-    if (currentGenre && currentGenre.slug !== genreSlug) {
-      navigate(`/genre/${mediaType}/${currentGenre.slug}`, { replace: true });
-    }
-  }, [mediaType, selectedGenre]);
-
-  useEffect(() => {
-    if (urlMediaType === 'movie' || urlMediaType === 'tv') {
-      setMediaType(urlMediaType);
-    }
-    if (genreSlug) {
-      const currentGenres = urlMediaType === 'tv' ? tvGenres : movieGenres;
-      const genre = currentGenres.find(g => g.slug === genreSlug);
-      if (genre) {
-        setSelectedGenre(genre.value);
-        setPage(1);
-      }
-    }
-  }, [urlMediaType, genreSlug]);
 
   const endpoint = `https://api.themoviedb.org/3/discover/${mediaType}`;
   const { data } = useTmdb<GenreResponse>(
@@ -93,9 +61,7 @@ export const GenreView = () => {
     [mediaType, selectedGenre, page]
   );
 
-  if (!data) {
-    return <p className="text-center text-gray-400">Loading genres...</p>;
-  }
+  if (!data) return <p className="text-center text-gray-400">Loading genres...</p>;
 
   const gridData: ImageCell[] = (data.results || []).map((item) => ({
     id: item.id,
