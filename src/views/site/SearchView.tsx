@@ -3,6 +3,7 @@ import { IMAGE_BASE_URL, type ImageCell } from '@/core';
 import { useTmdb } from '@/hooks';
 import { useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { FaFrown } from 'react-icons/fa';
 
 export const SearchView = () => {
   const navigate = useNavigate();
@@ -42,12 +43,45 @@ export const SearchView = () => {
     }), [data?.results, type]
   );
 
-  if (!query || !data?.results?.length) return null;
+  const handleItemClick = (id: number) => {
+    // Navigate to the correct path based on type
+    if (type === 'person') {
+      navigate(`/person/${id}`);
+    } else if (type === 'movie') {
+      navigate(`/movie/${id}`);
+    } else if (type === 'tv') {
+      navigate(`/tv/${id}`);
+    }
+  };
 
   return (
-    <>
-      <ImageGrid results={gridData} onClick={(id) => navigate(`/${type}/${id}`)} />
-      <Pagination page={page} maxPages={data.total_pages} onClick={setPage} />
-    </>
+    <section className="max-w-[1600px] mx-auto p-5 space-y-5">
+      <div className="flex items-center gap-2">
+        <h1 className="text-2xl font-bold text-white">Search for:</h1>
+        <span className="text-2xl text-gray-400">{query || 'Nothing'}</span>
+      </div>
+
+      {!query && (
+        <p className="text-gray-400">Enter a search term to find movies, TV shows, or people...</p>
+      )}
+
+      {query && !data && (
+        <p className="text-center text-[#f0f4ef]">Loading...</p>
+      )}
+
+      {query && data && data.results.length === 0 && (
+        <div className="text-center py-12">
+          <FaFrown className="w-16 h-16 mx-auto text-gray-600 mb-4" />
+          <p className="text-gray-400 text-lg">No search results found for "{query}"</p>
+        </div>
+      )}
+
+      {query && data && data.results.length > 0 && (
+        <>
+          <ImageGrid results={gridData} onClick={handleItemClick} />
+          <Pagination page={page} maxPages={data.total_pages} onClick={setPage} />
+        </>
+      )}
+    </section>
   );
 };

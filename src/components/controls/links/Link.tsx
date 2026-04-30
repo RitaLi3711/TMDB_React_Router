@@ -5,9 +5,10 @@ type LinkProps = {
   children: ReactNode;
   to: string;
   match?: string[];
+  replace?: boolean;
 };
 
-export const Link = ({ children, to, match = [] }: LinkProps) => {
+export const Link = ({ children, to, match = [], replace = false }: LinkProps) => {
   const { pathname } = useLocation();
 
   const matched = match.some((pattern) =>
@@ -17,6 +18,7 @@ export const Link = ({ children, to, match = [] }: LinkProps) => {
   return (
     <NavLink
       to={to}
+      replace={replace}
       className={({ isActive }) =>
         `px-4 py-2 rounded-md transition-all duration-200 border ${
           isActive || matched

@@ -17,7 +17,13 @@ export const ImageGrid = ({ results, onClick, children }: ImageGridProps) => {
           onClick={() => onClick?.(result.id)}
         >
           {children?.(result)}
-          <img className="w-full h-[280px] object-cover" src={result.imageUrl} alt={result.primaryText} />
+          {result.imageUrl ? (
+            <img className="w-full h-[280px] object-cover" src={result.imageUrl} alt={result.primaryText} />
+          ) : (
+            <div className="w-full h-[280px] bg-gray-700 flex items-center justify-center">
+              <span className="text-gray-400">No image</span>
+            </div>
+          )}
           <div className="p-3 text-center">
             <p className="text-sm font-semibold truncate">{result.primaryText}</p>
             {result.secondaryText && <p className="text-gray-400 text-xs">{result.secondaryText}</p>}

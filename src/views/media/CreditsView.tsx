@@ -1,14 +1,14 @@
 import { ImageGrid } from '@/components';
 import { MOVIE_ENDPOINT, TV_VIEW_ENDPOINT, IMAGE_BASE_URL, type CreditsResponse, type ImageCell } from '@/core';
 import { useTmdb } from '@/hooks';
-import { useParams, useLocation, useNavigate } from 'react-router-dom'; // Add useNavigate
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 
 export const CreditsView = () => {
-  const navigate = useNavigate(); // Add this
+  const navigate = useNavigate();
   const { id } = useParams();
   const location = useLocation();
   
-  const isMovie = location.pathname.includes('/movies/');
+  const isMovie = location.pathname.includes('/movie/'); // Changed from '/movies/' to '/movie/'
   const endpoint = isMovie ? MOVIE_ENDPOINT : TV_VIEW_ENDPOINT;
   
   const { data } = useTmdb<CreditsResponse>(
@@ -28,10 +28,6 @@ export const CreditsView = () => {
     secondaryText: result.character,
   }));
 
-  const handleClick = (personId: number) => {
-    navigate(`/person/${personId}`); // Changed to navigate
-  };
-
   return (
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-6 text-[#f0f4ef]">Credits</h2>
@@ -40,7 +36,10 @@ export const CreditsView = () => {
         <p className="text-[#bfcc94] text-center">No credits available.</p>
       )}
 
-      <ImageGrid results={gridData} onClick={handleClick} />
+      <ImageGrid 
+        results={gridData} 
+        onClick={(personId) => navigate(`/person/${personId}`)} 
+      />
     </div>
   );
 };

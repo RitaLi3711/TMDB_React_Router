@@ -1,11 +1,11 @@
 import type { ReactNode } from 'react';
 
 type ModalProps = {
-  onClose: () => void;
   children: ReactNode;
+  onClose: () => void;
 };
 
-export const Modal = ({ onClose, children }: ModalProps) => {
+export const Modal = ({ children, onClose }: ModalProps) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/70 backdrop-blur-md z-50 p-4" onClick={onClose}>
       <div

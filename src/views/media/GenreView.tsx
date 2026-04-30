@@ -1,23 +1,23 @@
-import { ButtonGroup, ImageGrid, Pagination } from '@/components';
+// views/media/GenreView.tsx
+import { Button, ButtonGroup, ImageGrid, Pagination } from '@/components';
 import { useTmdb } from '@/hooks';
 import { useState, useEffect } from 'react';
 import { IMAGE_BASE_URL, type ImageCell } from '@/core';
 import { useNavigate, useParams } from 'react-router-dom';
 
-interface GenreItem {
+type GenreItem = {
   id: number;
   title?: string;
   name?: string;
   poster_path: string;
 }
 
-interface GenreResponse {
+type GenreResponse = {
   results: GenreItem[];
   total_pages: number;
   page: number;
 }
 
-// Movie Genres with slugs
 const movieGenres = [
   { label: 'Action', value: 28, slug: 'action' },
   { label: 'Adventure', value: 12, slug: 'adventure' },
@@ -31,7 +31,6 @@ const movieGenres = [
   { label: 'Sci-Fi', value: 878, slug: 'sci-fi' },
 ];
 
-// TV Genres with slugs
 const tvGenres = [
   { label: 'Action', value: 10759, slug: 'action' },
   { label: 'Animation', value: 16, slug: 'animation' },
@@ -47,33 +46,35 @@ const tvGenres = [
 
 export const GenreView = () => {
   const navigate = useNavigate();
-  const { mediaType: urlMediaType, genreSlug } = useParams<{ mediaType?: string, genreSlug?: string }>();
+  const { mediaType: urlMediaType, genreSlug } = useParams();
   
-  // Get mediaType from URL or default to 'movie'
-  const [mediaType, setMediaType] = useState<'movie' | 'tv'>(urlMediaType === 'tv' ? 'tv' : 'movie');
+  const [mediaType, setMediaType] = useState<'movie' | 'tv'>(() => {
+    if (urlMediaType === 'tv' || urlMediaType === 'movie') return urlMediaType;
+    return 'movie';
+  });
   
-  // Get genres based on mediaType
   const genres = mediaType === 'movie' ? movieGenres : tvGenres;
   
-  // Find selected genre from URL slug or default to first genre
-  const defaultGenre = genres[0];
-  const initialGenre = genreSlug ? genres.find(g => g.slug === genreSlug)?.value || defaultGenre.value : defaultGenre.value;
+  const [selectedGenre, setSelectedGenre] = useState<number>(() => {
+    if (genreSlug) {
+      const found = genres.find(g => g.slug === genreSlug);
+      if (found) return found.value;
+    }
+    return genres[0].value;
+  });
   
-  const [selectedGenre, setSelectedGenre] = useState<number>(initialGenre);
   const [page, setPage] = useState(1);
 
-  // Update URL when mediaType or selectedGenre changes
   useEffect(() => {
     const currentGenre = genres.find(g => g.value === selectedGenre);
-    if (currentGenre) {
+    if (currentGenre && currentGenre.slug !== genreSlug) {
       navigate(`/genre/${mediaType}/${currentGenre.slug}`, { replace: true });
     }
-  }, [mediaType, selectedGenre, navigate]);
+  }, [mediaType, selectedGenre]);
 
-  // Sync state with URL params
   useEffect(() => {
-    if (urlMediaType) {
-      setMediaType(urlMediaType as 'movie' | 'tv');
+    if (urlMediaType === 'movie' || urlMediaType === 'tv') {
+      setMediaType(urlMediaType);
     }
     if (genreSlug) {
       const currentGenres = urlMediaType === 'tv' ? tvGenres : movieGenres;
@@ -86,7 +87,6 @@ export const GenreView = () => {
   }, [urlMediaType, genreSlug]);
 
   const endpoint = `https://api.themoviedb.org/3/discover/${mediaType}`;
-
   const { data } = useTmdb<GenreResponse>(
     endpoint,
     { with_genres: selectedGenre, page },
@@ -97,77 +97,47 @@ export const GenreView = () => {
     return <p className="text-center text-gray-400">Loading genres...</p>;
   }
 
-  const gridData: ImageCell[] = (data.results || []).map((item: GenreItem) => ({
+  const gridData: ImageCell[] = (data.results || []).map((item) => ({
     id: item.id,
     imageUrl: item.poster_path ? `${IMAGE_BASE_URL}${item.poster_path}` : '',
     primaryText: item.title || item.name || '',
     secondaryText: '',
   }));
 
-  const handleClick = (id: number) => {
-    navigate(`/${mediaType === 'movie' ? 'movies' : 'tv'}/${id}`);
-  };
-
-  const handleGenreChange = (value: string) => {
-    const genreValue = parseInt(value);
-    setSelectedGenre(genreValue);
-    setPage(1);
-    const genre = genres.find(g => g.value === genreValue);
-    if (genre) {
-      navigate(`/genre/${mediaType}/${genre.slug}`);
-    }
-  };
-
-  const handleMediaTypeChange = (value: string) => {
-    const newMediaType = value as 'movie' | 'tv';
-    const newGenres = newMediaType === 'movie' ? movieGenres : tvGenres;
-    const defaultGenre = newGenres[0];
-    setMediaType(newMediaType);
-    setSelectedGenre(defaultGenre.value);
-    setPage(1);
-    navigate(`/genre/${newMediaType}/${defaultGenre.slug}`);
-  };
-
-  const handlePageChange = (newPage: number) => {
-    setPage(newPage);
-  };
-
   return (
     <section className="max-w-[1600px] mx-auto p-5 space-y-5">
-      <div className="flex justify-between items-center">
-        <ButtonGroup
-          value={mediaType}
-          onClick={handleMediaTypeChange}
-          options={[
-            { label: 'Movies', value: 'movie' },
-            { label: 'TV', value: 'tv' },
-          ]}
-        />
-      </div>
+      <ButtonGroup
+        value={mediaType}
+        onClick={(value) => {
+          const newMediaType = value as 'movie' | 'tv';
+          const newGenres = newMediaType === 'movie' ? movieGenres : tvGenres;
+          const defaultGenre = newGenres[0];
+          navigate(`/genre/${newMediaType}/${defaultGenre.slug}`);
+        }}
+        options={[
+          { label: 'Movies', value: 'movie' },
+          { label: 'TV', value: 'tv' },
+        ]}
+      />
 
       <div className="flex flex-wrap gap-2">
         {genres.map((genre) => (
-          <button
+          <Button
             key={genre.value}
-            onClick={() => handleGenreChange(genre.value.toString())}
-            className={`px-4 py-2 rounded-lg transition-colors ${
-              selectedGenre === genre.value
-                ? 'bg-[#bfcc94] text-[#0d1821] font-semibold'  
-                : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-            }`}
+            variant={selectedGenre === genre.value ? 'primary' : 'grey'}
+            onClick={() => navigate(`/genre/${mediaType}/${genre.slug}`)}
           >
             {genre.label}
-          </button>
+          </Button>
         ))}
       </div>
 
-      <ImageGrid results={gridData} onClick={handleClick} />
-
-      <Pagination
-        page={page}
-        maxPages={data.total_pages}
-        onClick={handlePageChange}
+      <ImageGrid 
+        results={gridData} 
+        onClick={(id) => navigate(`/${mediaType === 'movie' ? 'movie' : 'tv'}/${id}`)} 
       />
+      
+      <Pagination page={page} maxPages={data.total_pages} onClick={setPage} />
     </section>
   );
 };

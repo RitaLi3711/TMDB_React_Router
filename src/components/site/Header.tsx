@@ -1,31 +1,30 @@
+// Header.tsx
 import { Link } from '@/components';
-import { useDebounce } from '@/hooks';
-import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { ButtonGroup } from '../controls/buttons/ButtonGroup';
+import { useNavigate } from 'react-router-dom';
 
-export const Header = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchType, setSearchType] = useState<'movie' | 'tv' | 'person'>('movie');
-  const debouncedQuery = useDebounce(searchQuery, 500);
+type HeaderProps = {
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
+  searchType: 'movie' | 'tv' | 'person';
+  setSearchType: (type: 'movie' | 'tv' | 'person') => void;
+  onClearSearch: () => void;
+  onNavigateAway: () => void;
+};
+
+export const Header = ({ searchQuery, setSearchQuery, searchType, setSearchType, onClearSearch, onNavigateAway }: HeaderProps) => {
   const navigate = useNavigate();
-  const isNavigating = useRef(false);
 
-  useEffect(() => {
-    if (isNavigating.current) return;
+  const handleLogoClick = () => {
+    onClearSearch();
+    onNavigateAway();
+    navigate('/');
+  };
 
-    if (debouncedQuery.trim()) {
-      navigate(`/search?q=${encodeURIComponent(debouncedQuery.trim())}&type=${searchType}`);
-    }
-  }, [debouncedQuery, searchType, navigate]);
-
-  const handleNavClick = (path: string) => {
-    isNavigating.current = true;
-    setSearchQuery('');
+  const handleLinkClick = (path: string) => {
+    onClearSearch();
+    onNavigateAway();
     navigate(path);
-    setTimeout(() => {
-      isNavigating.current = false;
-    }, 500);
   };
 
   return (
@@ -33,27 +32,35 @@ export const Header = () => {
       <div className="flex items-center justify-between gap-20 px-4 py-4">
         <div className="flex items-center gap-4">
           <h1 
-            onClick={() => handleNavClick('/')} 
+            onClick={handleLogoClick}
             className="text-4xl font-bold text-[#f0f4ef] cursor-pointer"
           >
             TMDB Explorer
           </h1>
 
-          <Link to="/movies/category/now_playing">
-            Movies
-          </Link>
+          <div onClick={() => handleLinkClick('/movies/category/now_playing')}>
+            <Link to="/movies/category/now_playing" match={['/movies']}>
+              Movies
+            </Link>
+          </div>
 
-          <Link to="/tv/category/airing_today">
-            TV
-          </Link>
+          <div onClick={() => handleLinkClick('/tv/category/airing_today')}>
+            <Link to="/tv/category/airing_today" match={['/tv']}>
+              TV
+            </Link>
+          </div>
 
-          <Link to="/trending">
-            Trending
-          </Link>
+          <div onClick={() => handleLinkClick('/trending/movie')}>
+            <Link to="/trending/movie" match={['/trending']}>
+              Trending
+            </Link>
+          </div>
 
-          <Link to="/genre">
-            Genre
-          </Link>
+          <div onClick={() => handleLinkClick('/genre')}>
+            <Link to="/genre" match={['/genre']}>
+              Genre
+            </Link>
+          </div>
         </div>
 
         <div className="flex items-center gap-4">

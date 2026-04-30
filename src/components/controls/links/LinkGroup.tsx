@@ -12,7 +12,7 @@ export const LinkGroup = ({ options }: LinkGroupProps) => {
   return (
     <div className="flex gap-6">
       {options.map((option) => (
-        <Link key={option.label} to={option.to} match={option.match}>
+        <Link key={option.label} to={option.to} match={option.match} replace={true}>
           {option.label}
         </Link>
       ))}
