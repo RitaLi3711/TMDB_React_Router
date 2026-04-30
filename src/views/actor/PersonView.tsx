@@ -1,3 +1,4 @@
+import { Button } from '@/components';
 import { IMAGE_BASE_URL, type PersonResponse } from '@/core';
 import { useTmdb } from '@/hooks';
 import { useParams, useNavigate, Link, useLocation, Outlet } from 'react-router-dom';
@@ -14,49 +15,24 @@ export const PersonView = () => {
     [id]
   );
 
-  if (!person) {
-    return (
-      <div className="max-w-[1600px] mx-auto p-5">
-        <p className="text-center text-gray-400">Loading person details...</p>
-      </div>
-    );
-  }
+  if (!person) return <p className="text-center text-gray-400 p-5">Loading...</p>;
 
   const profileUrl = person.profile_path ? `${IMAGE_BASE_URL}${person.profile_path}` : null;
-
-  const isActive = (path: string) => {
-    return location.pathname.includes(path);
-  };
-
+  const isActive = (path: string) => location.pathname.includes(path);
   const department = person.known_for_department === 'Acting' ? '' : person.known_for_department;
-
-  const handleBack = () => {
-    navigate(-1);
-  };
 
   return (
     <div className="max-w-[1600px] mx-auto p-5">
-      <button 
-        onClick={handleBack}
-        className="mb-4 px-4 py-2 rounded-md transition-all duration-200 border bg-[#344966] text-[#f0f4ef] border-[#344966] hover:bg-[#2a3b52] hover:text-[#f0f4ef] hover:border-[#bfcc94]"
-      >
-        ← Back
-      </button>
+      <Button onClick={() => navigate(-1)}>← Back</Button>
 
-      <div className="flex gap-6 mb-6">
+      <div className="flex gap-6 mb-6 mt-4">
         {profileUrl && (
-          <img 
-            src={profileUrl} 
-            alt={person.name}
-            className="w-64 h-64 object-cover rounded-lg"
-          />
+          <img src={profileUrl} alt={person.name} className="w-64 h-64 object-cover rounded-lg" />
         )}
         
         <div className="flex-1">
           <h2 className="text-3xl font-bold text-white mb-2">{person.name}</h2>
-          {department && (
-            <p className="text-gray-300 mb-4">{department}</p>
-          )}
+          {department && <p className="text-gray-300 mb-4">{department}</p>}
           
           <div className="flex flex-col gap-2 text-sm text-gray-400">
             {person.place_of_birth && (
@@ -73,9 +49,7 @@ export const PersonView = () => {
             )}
           </div>
 
-          {person.deathday && (
-            <p className="text-red-400 mt-2">Died: {new Date(person.deathday).toLocaleDateString()}</p>
-          )}
+          {person.deathday && <p className="text-red-400 mt-2">Died: {new Date(person.deathday).toLocaleDateString()}</p>}
 
           {person.biography && (
             <div className="mt-4">
@@ -87,29 +61,22 @@ export const PersonView = () => {
       </div>
 
       <div className="flex gap-4 border-b border-gray-700 mb-6">
-        <Link 
-          to={`/person/${id}/career`}
-          className={`px-4 py-2 rounded-md transition-all duration-200 border ${
-            isActive('career')
-              ? 'bg-[#e6aace] text-[#0d1821] border-[#e6aace] shadow-lg scale-105'
-              : 'bg-[#344966] text-[#f0f4ef] border-[#344966] hover:bg-[#2a3b52] hover:text-[#f0f4ef] hover:border-[#bfcc94]'
-          }`}
-        >
+        <Link to={`/person/${id}/career`} replace={true} className={`px-4 py-2 rounded-md transition-all duration-200 border ${
+          isActive('career')
+            ? 'bg-[#e6aace] text-[#0d1821] border-[#e6aace] shadow-lg scale-105'
+            : 'bg-[#344966] text-[#f0f4ef] border-[#344966] hover:bg-[#2a3b52]'
+        }`}>
           Career
         </Link>
-        <Link 
-          to={`/person/${id}/images`}
-          className={`px-4 py-2 rounded-md transition-all duration-200 border ${
-            isActive('images')
-              ? 'bg-[#e6aace] text-[#0d1821] border-[#e6aace] shadow-lg scale-105'
-              : 'bg-[#344966] text-[#f0f4ef] border-[#344966] hover:bg-[#2a3b52] hover:text-[#f0f4ef] hover:border-[#bfcc94]'
-          }`}
-        >
+        <Link to={`/person/${id}/images`} replace={true} className={`px-4 py-2 rounded-md transition-all duration-200 border ${
+          isActive('images')
+            ? 'bg-[#e6aace] text-[#0d1821] border-[#e6aace] shadow-lg scale-105'
+            : 'bg-[#344966] text-[#f0f4ef] border-[#344966] hover:bg-[#2a3b52]'
+        }`}>
           Images
         </Link>
       </div>
 
-      {/* Nested routes will render here */}
       <Outlet />
     </div>
   );
