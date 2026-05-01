@@ -2,7 +2,7 @@ import { Button } from '@/components';
 import { IMAGE_BASE_URL, type PersonResponse } from '@/core';
 import { useTmdb } from '@/hooks';
 import { useParams, useNavigate, Link, useLocation, Outlet } from 'react-router-dom';
-import { FaBirthdayCake, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaBirthdayCake, FaLocationArrow } from 'react-icons/fa';
 
 export const PersonView = () => {
   const { id } = useParams();
@@ -42,7 +42,7 @@ export const PersonView = () => {
           <div className="flex flex-col gap-2 text-sm text-gray-400 mb-4">
             {person.place_of_birth && (
               <div className="flex items-center gap-2">
-                <FaMapMarkerAlt />
+                <FaLocationArrow />
                 <span>{person.place_of_birth}</span>
               </div>
             )}
