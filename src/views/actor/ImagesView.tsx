@@ -1,4 +1,5 @@
-import { IMAGE_BASE_URL } from '@/core';
+import { ImageGrid } from '@/components';
+import { IMAGE_BASE_URL, type ImageCell } from '@/core';
 import { useTmdb } from '@/hooks';
 import { useParams } from 'react-router-dom';
 
@@ -18,19 +19,17 @@ export const ImagesView = () => {
   if (!data) return <p className="text-center text-gray-400 mt-6">Loading images...</p>;
   if (!data.profiles?.length) return <p className="text-center text-gray-400 mt-6">No images available.</p>;
 
+  const gridData: ImageCell[] = data.profiles.map((img, index) => ({
+    id: index,
+    imageUrl: `${IMAGE_BASE_URL}${img.file_path}`,
+    primaryText: '',
+    secondaryText: '',
+  }));
+
   return (
     <>
       <h2 className="text-xl font-bold text-[#f0f4ef] mb-4">Images</h2>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-        {data.profiles.map((img, i) => (
-          <img
-            key={i}
-            src={`${IMAGE_BASE_URL}${img.file_path}`}
-            className="rounded-lg object-cover w-full h-[300px]"
-            alt=""
-          />
-        ))}
-      </div>
+      <ImageGrid results={gridData} />
     </>
   );
 };
