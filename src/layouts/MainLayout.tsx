@@ -22,6 +22,7 @@ export const MainLayout = () => {
 
     // Don't trigger search on movie, tv, or person pages
     if (location.pathname.includes('/movie/') || 
+        location.pathname.includes('/tv/') || 
         location.pathname.includes('/person/')) {
       return;
     }
