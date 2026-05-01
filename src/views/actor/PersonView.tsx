@@ -23,18 +23,23 @@ export const PersonView = () => {
 
   return (
     <div className="max-w-[1600px] mx-auto p-5">
-      <Button onClick={() => navigate(-1)}>← Back</Button>
-
-      <div className="flex gap-6 mb-6 mt-4">
+      <div className="flex gap-8 mb-6">
         {profileUrl && (
-          <img src={profileUrl} alt={person.name} className="w-64 h-64 object-cover rounded-lg" />
+          <img 
+            src={profileUrl} 
+            alt={person.name} 
+            className="w-64 aspect-[2/3] object-cover rounded-lg" 
+          />
         )}
         
         <div className="flex-1">
+          <div className="mb-2">
+            <Button onClick={() => navigate(-1)}>← Back</Button>
+          </div>
           <h2 className="text-3xl font-bold text-white mb-2">{person.name}</h2>
           {department && <p className="text-gray-300 mb-4">{department}</p>}
           
-          <div className="flex flex-col gap-2 text-sm text-gray-400">
+          <div className="flex flex-col gap-2 text-sm text-gray-400 mb-4">
             {person.place_of_birth && (
               <div className="flex items-center gap-2">
                 <FaMapMarkerAlt />
@@ -49,30 +54,39 @@ export const PersonView = () => {
             )}
           </div>
 
-          {person.deathday && <p className="text-red-400 mt-2">Died: {new Date(person.deathday).toLocaleDateString()}</p>}
+          {person.deathday && <p className="text-red-400 mb-4">Died: {new Date(person.deathday).toLocaleDateString()}</p>}
 
-          {person.biography && (
-            <div className="mt-4">
-              <h3 className="text-xl font-semibold text-white mb-2">Biography</h3>
+          <div>
+            {person.biography ? (
               <p className="text-gray-300 leading-relaxed">{person.biography}</p>
-            </div>
-          )}
+            ) : (
+              <p className="text-gray-400 italic">No biography available.</p>
+            )}
+          </div>
         </div>
       </div>
 
       <div className="flex gap-4 border-b border-gray-700 mb-6">
-        <Link to={`/person/${id}/career`} replace={true} className={`px-4 py-2 rounded-md transition-all duration-200 border ${
-          isActive('career')
-            ? 'bg-[#e6aace] text-[#0d1821] border-[#e6aace] shadow-lg scale-105'
-            : 'bg-[#344966] text-[#f0f4ef] border-[#344966] hover:bg-[#2a3b52]'
-        }`}>
+        <Link 
+          to={`/person/${id}/career`} 
+          replace={true} 
+          className={`px-4 py-2 rounded-md transition-all duration-200 border ${
+            isActive('career')
+              ? 'bg-[#e6aace] text-[#0d1821] border-[#e6aace] shadow-lg scale-105'
+              : 'bg-[#344966] text-[#f0f4ef] border-[#344966] hover:bg-[#2a3b52]'
+          }`}
+        >
           Career
         </Link>
-        <Link to={`/person/${id}/images`} replace={true} className={`px-4 py-2 rounded-md transition-all duration-200 border ${
-          isActive('images')
-            ? 'bg-[#e6aace] text-[#0d1821] border-[#e6aace] shadow-lg scale-105'
-            : 'bg-[#344966] text-[#f0f4ef] border-[#344966] hover:bg-[#2a3b52]'
-        }`}>
+        <Link 
+          to={`/person/${id}/images`} 
+          replace={true} 
+          className={`px-4 py-2 rounded-md transition-all duration-200 border ${
+            isActive('images')
+              ? 'bg-[#e6aace] text-[#0d1821] border-[#e6aace] shadow-lg scale-105'
+              : 'bg-[#344966] text-[#f0f4ef] border-[#344966] hover:bg-[#2a3b52]'
+          }`}
+        >
           Images
         </Link>
       </div>
