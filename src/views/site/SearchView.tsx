@@ -1,5 +1,5 @@
 import { ImageGrid, Pagination } from '@/components';
-import { IMAGE_BASE_URL, type SearchResponse } from '@/core';
+import { IMAGE_BASE_URL, SEARCH_ENDPOINT, type SearchResponse } from '@/core';
 import { useDebounce, useTmdb } from '@/hooks';
 import { useState } from 'react';
 import { FaFrown } from 'react-icons/fa';
@@ -12,7 +12,7 @@ export const SearchView = () => {
   const type = searchParams.get('type') ?? 'movie';
   const [page, setPage] = useState(1);
   const debounced = useDebounce(query, 500);
-  const { data } = useTmdb<SearchResponse>(`/search/${type}`, { query: debounced, page }, [debounced, page, type]);
+  const { data } = useTmdb<SearchResponse>(`${SEARCH_ENDPOINT}/${type}`, { query: debounced, page }, [debounced, page, type]);
 
   if (!data) return <p className="text-center text-[#f0f4ef]">Loading...</p>;
 
