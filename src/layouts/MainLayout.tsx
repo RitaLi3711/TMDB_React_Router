@@ -1,4 +1,3 @@
-// MainLayout.tsx
 import { Footer } from '@/components/site/Footer';
 import { Header } from '@/components/site/Header';
 import { Outlet } from 'react-router-dom';

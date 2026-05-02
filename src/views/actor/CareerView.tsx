@@ -1,12 +1,12 @@
 import { ImageGrid } from '@/components';
-import { IMAGE_BASE_URL, PERSON_ENDPOINT, type CareerResponse } from '@/core';
+import { IMAGE_BASE_URL, PERSON_ENDPOINT, type PersonCareerResponse} from '@/core';
 import { useTmdb } from '@/hooks';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export const CareerView = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { data } = useTmdb<CareerResponse>(`${PERSON_ENDPOINT}/${id}/movie_credits`, {}, [id]);
+  const { data } = useTmdb<PersonCareerResponse>(`${PERSON_ENDPOINT}/${id}/movie_credits`, {}, [id]);
 
   if (!data?.cast) return <p className="text-gray-400 mt-6 text-center">Loading...</p>;
 

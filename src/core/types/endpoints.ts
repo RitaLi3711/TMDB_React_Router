@@ -1,10 +1,34 @@
-export type MoviesResponse = {
+type CreditBase = {
+  id: number;
+  title?: string;
+  name?: string;
+  media_type: 'movie' | 'tv';
+  poster_path: string | null;
+  popularity?: number;
+  vote_average?: number;
+  vote_count?: number;
+  release_date?: string;
+  first_air_date?: string;
+};
+
+export type CreditsResponse = {
+  cast: Array<{
+    id: number;
+    name: string;
+    profile_path: string | null;
+    character: string;
+  }>;
+};
+
+export type GenreResponse = {
   results: Array<{
     id: number;
-    original_title: string;
+    title?: string;
+    name?: string;
     poster_path: string;
   }>;
   total_pages: number;
+  page: number;
 };
 
 export type MovieResponse = {
@@ -25,13 +49,51 @@ export type MovieResponse = {
   };
 };
 
-export type CreditsResponse = {
+export type MoviesResponse = {
+  results: Array<{
+    id: number;
+    original_title: string;
+    poster_path: string;
+  }>;
+  total_pages: number;
+};
+
+export type PersonCareerResponse = {
   cast: Array<{
     id: number;
-    name: string;
-    profile_path: string | null;
+    title?: string;
+    name?: string;
+    poster_path: string | null;
     character: string;
   }>;
+};
+
+export type PersonImagesResponse = {
+  profiles: Array<{ file_path: string }>;
+};
+
+export type PersonResponse = {
+  id: number;
+  name: string;
+  profile_path: string | null;
+  biography: string;
+  birthday: string | null;
+  deathday: string | null;
+  place_of_birth: string | null;
+  known_for_department: string;
+  also_known_as: string[];
+  combined_credits: {
+    cast: Array<
+      CreditBase & {
+        character: string;
+      }
+    >;
+    crew: Array<
+      CreditBase & {
+        job: string;
+      }
+    >;
+  };
 };
 
 export type ReviewsResponse = {
@@ -55,14 +117,27 @@ export type SearchResponse = {
   total_results: number;
 };
 
-export type TelevisionResponse = {
+export type TrailerResponse = {
+  videos?: {
+    results: Array<{
+      key: string;
+      name: string;
+      site: string;
+      type: string;
+    }>;
+  };
+};
+
+export type TrendingResponse = {
   results: Array<{
     id: number;
-    original_name: string;
+    title?: string;
+    name?: string;
     poster_path: string;
-    name: string;
+    media_type: 'movie' | 'tv';
   }>;
   total_pages: number;
+  page: number;
 };
 
 export type TvDetailsResponse = {
@@ -89,111 +164,5 @@ export type TvDetailsResponse = {
       site: string;
       type: string;
     }>;
-  };
-};
-
-export type TrendingResponse = {
-  results: Array<{
-    id: number;
-    title?: string;
-    name?: string;
-    poster_path: string;
-    media_type: 'movie' | 'tv';
-  }>;
-  total_pages: number;
-  page: number;
-};
-
-export type EpisodesResponse = {
-  id: number;
-  name: string;
-  overview: string;
-  episodes: Array<{
-    id: number;
-    name: string;
-    overview: string;
-    still_path: string | null;
-    episode_number: number;
-    season_number: number;
-    air_date: string;
-    runtime: number;
-    vote_average: number;
-  }>;
-};
-
-export type TrailerResponse = {
-  videos?: {
-    results: Array<{
-      key: string;
-      name: string;
-      site: string;
-      type: string;
-    }>;
-  };
-};
-
-export type PersonImagesResponse = {
-  profiles: Array<{ file_path: string }>;
-};
-
-export type CareerResponse = {
-  cast: Array<{
-    id: number;
-    title?: string;
-    name?: string;
-    poster_path: string | null;
-    character: string;
-  }>;
-};
-
-export type GenreResponse = {
-  results: Array<{
-    id: number;
-    title?: string;
-    name?: string;
-    poster_path: string;
-  }>;
-  total_pages: number;
-  page: number;
-};
-
-type CreditBase = {
-  id: number;
-  title?: string;
-  name?: string;
-  media_type: 'movie' | 'tv';
-  poster_path: string | null;
-
-  popularity?: number;
-  vote_average?: number;
-  vote_count?: number;
-
-  release_date?: string;
-  first_air_date?: string;
-};
-
-export type PersonResponse = {
-  id: number;
-  name: string;
-  profile_path: string | null;
-  biography: string;
-  birthday: string | null;
-  deathday: string | null;
-  place_of_birth: string | null;
-  known_for_department: string;
-  also_known_as: string[];
-
-  combined_credits: {
-    cast: Array<
-      CreditBase & {
-        character: string;
-      }
-    >;
-
-    crew: Array<
-      CreditBase & {
-        job: string;
-      }
-    >;
   };
 };
