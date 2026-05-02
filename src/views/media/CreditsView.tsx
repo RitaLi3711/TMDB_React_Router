@@ -1,44 +1,29 @@
 import { ImageGrid } from '@/components';
-import { MOVIE_ENDPOINT, TV_VIEW_ENDPOINT, IMAGE_BASE_URL, type CreditsResponse, type ImageCell } from '@/core';
+import { IMAGE_BASE_URL, MOVIE_ENDPOINT, TV_VIEW_ENDPOINT, type CreditsResponse } from '@/core';
 import { useTmdb } from '@/hooks';
-import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 export const CreditsView = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const location = useLocation();
-  
-  const isMovie = location.pathname.includes('/movie/'); // Changed from '/movies/' to '/movie/'
-  const endpoint = isMovie ? MOVIE_ENDPOINT : TV_VIEW_ENDPOINT;
-  
-  const { data } = useTmdb<CreditsResponse>(
-    `${endpoint}/${id}/credits`,
-    {},
-    [id, isMovie]
-  );
+  const isMovie = location.pathname.includes('/movie/');
+  const { data } = useTmdb<CreditsResponse>(`${isMovie ? MOVIE_ENDPOINT : TV_VIEW_ENDPOINT}/${id}/credits`, {}, [id, isMovie]);
 
-  if (!data) {
-    return <p className="text-center text-[#f0f4ef]">Loading credits...</p>;
-  }
-
-  const gridData: ImageCell[] = (data?.cast ?? []).map((result) => ({
-    id: result.id,
-    imageUrl: result.profile_path ? `${IMAGE_BASE_URL}${result.profile_path}` : '',
-    primaryText: result.name,
-    secondaryText: result.character,
-  }));
+  if (!data) return <p className="text-center text-[#f0f4ef]">Loading credits...</p>;
+  if (!data.cast.length) return <p className="text-[#bfcc94] text-center">No credits available.</p>;
 
   return (
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-6 text-[#f0f4ef]">Credits</h2>
-
-      {!data.cast.length && (
-        <p className="text-[#bfcc94] text-center">No credits available.</p>
-      )}
-
-      <ImageGrid 
-        results={gridData} 
-        onClick={(personId) => navigate(`/person/${personId}`)} 
+      <ImageGrid
+        results={data.cast.map((person) => ({
+          id: person.id,
+          imageUrl: `${IMAGE_BASE_URL}${person.profile_path ?? ''}`,
+          primaryText: person.name,
+          secondaryText: person.character,
+        }))}
+        onClick={(personId) => navigate(`/person/${personId}`)}
       />
     </div>
   );
