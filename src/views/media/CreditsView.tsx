@@ -1,5 +1,5 @@
 import { ImageGrid } from '@/components';
-import { IMAGE_BASE_URL, MOVIE_ENDPOINT, TV_VIEW_ENDPOINT, type CreditsResponse } from '@/core';
+import { IMAGE_BASE_URL, MOVIE_ENDPOINT, TV_ENDPOINT, type CreditsResponse } from '@/core';
 import { useTmdb } from '@/hooks';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
@@ -8,7 +8,7 @@ export const CreditsView = () => {
   const { id } = useParams();
   const location = useLocation();
   const isMovie = location.pathname.includes('/movie/');
-  const { data } = useTmdb<CreditsResponse>(`${isMovie ? MOVIE_ENDPOINT : TV_VIEW_ENDPOINT}/${id}/credits`, {}, [id, isMovie]);
+  const { data } = useTmdb<CreditsResponse>(`${isMovie ? MOVIE_ENDPOINT : TV_ENDPOINT}/${id}/credits`, {}, [id, isMovie]);
 
   if (!data) return <p className="text-center text-[#f0f4ef]">Loading credits...</p>;
   if (!data.cast.length) return <p className="text-[#bfcc94] text-center">No credits available.</p>;

@@ -1,5 +1,5 @@
 import { LinkGroup, Modal } from '@/components';
-import { IMAGE_BASE_URL, ORIGINAL_IMAGE_BASE_URL, type MovieResponse, type TvDetailsResponse } from '@/core';
+import { IMAGE_BASE_URL, MOVIE_ENDPOINT, TV_ENDPOINT, ORIGINAL_IMAGE_BASE_URL, type MovieResponse, type TvDetailsResponse } from '@/core';
 import { useTmdb } from '@/hooks';
 import { FaCalendarAlt } from 'react-icons/fa';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -11,7 +11,7 @@ export const MovieView = () => {
 
   const isMovie = location.pathname.includes('/movie/');
   const { data } = useTmdb<MovieResponse | TvDetailsResponse>(
-    `$isMovie ? MOVIE_ENDPOINT : TV_VIEW_ENDPOINT}/${id}`,
+    `${isMovie ? MOVIE_ENDPOINT : TV_ENDPOINT}/${id}`, 
     { append_to_response: 'videos' },
     [id, isMovie]
   );
@@ -32,10 +32,18 @@ export const MovieView = () => {
           <img className="w-[220px] h-[330px] object-cover rounded-xl" src={`${IMAGE_BASE_URL}${data.poster_path}`} alt={title} />
           <div className="flex-1 space-y-4">
             <h1 className="text-3xl font-bold">{title}</h1>
-            <p className="text-gray-400 flex items-center gap-2">
-              <FaCalendarAlt />
-              {date || 'Date TBA'}
-            </p>
+            <div className="text-gray-400">
+              <p className="flex items-center gap-2">
+                <FaCalendarAlt />
+                {date || 'Date TBA'}
+              </p>
+              {!isMovie && (
+                <p className="mt-1">
+                  {(data as TvDetailsResponse).seasons?.filter(s => s.season_number > 0).length} Seasons • 
+                  {(data as TvDetailsResponse).seasons?.reduce((total, s) => s.season_number > 0 ? total + s.episode_count : total, 0)} Episodes
+                </p>
+              )}
+            </div>
             <p className="text-gray-300">{data.overview}</p>
             <LinkGroup
               options={

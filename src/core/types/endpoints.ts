@@ -117,6 +117,31 @@ export type SearchResponse = {
   total_results: number;
 };
 
+export type TelevisionResponse = {
+  results: Array<{
+    id: number;
+    name: string;
+    original_name: string;
+    poster_path: string;
+  }>;
+  total_pages: number;
+};
+
+export type Episode = {
+  id: number;
+  still_path: string | null;
+  episode_number: number;
+  name: string;
+  air_date: string;
+  overview: string;
+};
+
+export type SeasonData = {
+  air_date: string;
+  episodes: Episode[];
+   overview: string; 
+};
+
 export type TrailerResponse = {
   videos?: {
     results: Array<{

@@ -1,6 +1,5 @@
-// views/tv/TelevisionView.tsx
 import { ButtonGroup, ImageGrid, Pagination } from '@/components';
-import { IMAGE_BASE_URL, TV_VIEW_ENDPOINT, type ImageCell, type TelevisionResponse } from '@/core';
+import { IMAGE_BASE_URL, TV_ENDPOINT, type TelevisionResponse } from '@/core';
 import { useTmdb } from '@/hooks';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -11,16 +10,9 @@ export const TelevisionView = () => {
   const [page, setPage] = useState(1);
   const category = interval ?? 'airing_today';
 
-  const { data } = useTmdb<TelevisionResponse>(`${TV_VIEW_ENDPOINT}/${category}`, { page }, [category, page]);
+  const { data } = useTmdb<TelevisionResponse>(`${TV_ENDPOINT}/${category}`, { page }, [category, page]);
 
   if (!data) return <p className="text-center text-gray-400">Loading...</p>;
-
-  const gridData: ImageCell[] = data.results.map((result) => ({
-    id: result.id,
-    imageUrl: result.poster_path ? `${IMAGE_BASE_URL}${result.poster_path}` : '',
-    primaryText: result.name || result.original_name || '',
-    secondaryText: '',
-  }));
 
   return (
     <section className="max-w-[1600px] mx-auto p-5 space-y-5">
@@ -37,7 +29,14 @@ export const TelevisionView = () => {
           { label: 'Top Rated', value: 'top_rated' },
         ]}
       />
-      <ImageGrid results={gridData} onClick={(id) => navigate(`/tv/${id}`)} />
+      <ImageGrid
+        results={data.results.map((result) => ({
+          id: result.id,
+          imageUrl: `${IMAGE_BASE_URL}${result.poster_path ?? ''}`,
+          primaryText: result.name || result.original_name || '',
+        }))}
+        onClick={(id) => navigate(`/tv/${id}`)}
+      />
       <Pagination page={page} maxPages={data.total_pages} onClick={setPage} />
     </section>
   );
