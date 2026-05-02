@@ -1,30 +1,15 @@
 import { MOVIE_ENDPOINT, TV_VIEW_ENDPOINT, type ReviewsResponse } from '@/core';
 import { useTmdb } from '@/hooks';
-import { useParams, useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 export const ReviewsView = () => {
   const { id } = useParams();
   const location = useLocation();
-  
-  const isMovie = location.pathname.includes('/movie/'); // Changed from '/movies/' to '/movie/'
-  const endpoint = isMovie ? MOVIE_ENDPOINT : TV_VIEW_ENDPOINT;
-  
-  const { data } = useTmdb<ReviewsResponse>(
-    `${endpoint}/${id}/reviews`,
-    {},
-    [id, isMovie]
-  );
+  const endpoint = location.pathname.includes('/movie/') ? MOVIE_ENDPOINT : TV_VIEW_ENDPOINT;
+  const { data } = useTmdb<ReviewsResponse>(`${endpoint}/${id}/reviews`, {}, [id, endpoint]);
 
-  if (!data?.results?.length) {
-    return (
-      <div className="mt-6 space-y-4">
-        <h2 className="text-2xl font-bold text-[#f0f4ef]">Reviews</h2>
-        <p className="text-[#bfcc94] text-center">
-          {!data ? 'Loading reviews...' : 'No reviews available.'}
-        </p>
-      </div>
-    );
-  }
+  if (!data) return <p className="text-[#bfcc94] text-center">Loading reviews...</p>;
+  if (!data.results?.length) return <p className="text-[#bfcc94] text-center">No reviews available.</p>;
 
   return (
     <div className="mt-6 space-y-4">
