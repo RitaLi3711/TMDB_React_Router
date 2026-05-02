@@ -1,5 +1,5 @@
 import { ImageGrid, Pagination } from '@/components';
-import { IMAGE_BASE_URL, type ImageCell } from '@/core';
+import { IMAGE_BASE_URL, type SearchResponse } from '@/core';
 import { useDebounce, useTmdb } from '@/hooks';
 import { useState } from 'react';
 import { FaFrown } from 'react-icons/fa';
@@ -11,43 +11,10 @@ export const SearchView = () => {
   const query = searchParams.get('q') ?? '';
   const type = searchParams.get('type') ?? 'movie';
   const [page, setPage] = useState(1);
-  const debounced = useDebounce<string>(query, 500);
+  const debounced = useDebounce(query, 500);
+  const { data } = useTmdb<SearchResponse>(`/search/${type}`, { query: debounced, page }, [debounced, page, type]);
 
-  const { data } = useTmdb<{
-    results: Array<{
-      id: number;
-      title: string;
-      name: string;
-      poster_path: string;
-      profile_path: string;
-      media_type: string;
-    }>;
-    total_pages: number;
-    total_results: number;
-  }>(`https://api.themoviedb.org/3/search/${type}`, { query: debounced, page }, [debounced, page, type]);
-
-  const gridData: ImageCell[] = (data?.results ?? []).map((item) => {
-    return {
-      id: item.id,
-      imageUrl: `${IMAGE_BASE_URL}${item.poster_path ?? item.profile_path}`,
-      primaryText: item.name,
-    };
-  });
-
-  const handleItemClick = (id: number) => {
-    // Navigate to the correct path based on type
-    if (type === 'person') {
-      navigate(`/person/${id}`);
-    } else if (type === 'movie') {
-      navigate(`/movie/${id}`);
-    } else if (type === 'tv') {
-      navigate(`/tv/${id}`);
-    }
-  };
-
-  if (!data) {
-    return <p className="text-center text-[#f0f4ef]">Loading...</p>;
-  }
+  if (!data) return <p className="text-center text-[#f0f4ef]">Loading...</p>;
 
   return (
     <section className="max-w-[1600px] mx-auto p-5 space-y-5">
@@ -55,11 +22,17 @@ export const SearchView = () => {
         <h1 className="text-2xl font-bold text-white">Search for:</h1>
         <span className="text-2xl text-gray-400">{query || ''}</span>
       </div>
-     
 
       {data.results.length ? (
         <>
-          <ImageGrid results={gridData} onClick={handleItemClick} />
+          <ImageGrid
+            results={data.results.map((item) => ({
+              id: item.id,
+              imageUrl: `${IMAGE_BASE_URL}${item.poster_path ?? item.profile_path}`,
+              primaryText: item.name ?? item.title ?? 'Untitled',
+            }))}
+            onClick={(id) => navigate(`/${type}/${id}`)}
+          />
           <Pagination page={page} maxPages={data.total_pages} onClick={setPage} />
         </>
       ) : (
