@@ -121,6 +121,17 @@ export type EpisodesResponse = {
   }>;
 };
 
+export type TrailerResponse = {
+  videos?: {
+    results: Array<{
+      key: string;
+      name: string;
+      site: string;
+      type: string;
+    }>;
+  };
+};
+
 type CreditBase = {
   id: number;
   title?: string;
