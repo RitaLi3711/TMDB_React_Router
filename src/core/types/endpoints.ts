@@ -136,6 +136,15 @@ export type PersonImagesResponse = {
   profiles: Array<{ file_path: string }>;
 };
 
+export type CareerResponse = {
+  cast: Array<{
+    id: number;
+    title?: string;
+    name?: string;
+    poster_path: string | null;
+    character: string;
+  }>;
+};
 
 export type GenreResponse = {
   results: Array<{
