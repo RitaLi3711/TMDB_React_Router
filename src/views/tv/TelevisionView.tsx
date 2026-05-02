@@ -24,7 +24,7 @@ export const TelevisionView = () => {
         }}
         options={[
           { label: 'Airing Today', value: 'airing_today' },
-          { label: 'On TV', value: 'on_the_air' },
+          { label: 'On The Air', value: 'on_the_air' },
           { label: 'Popular', value: 'popular' },
           { label: 'Top Rated', value: 'top_rated' },
         ]}

@@ -1,5 +1,5 @@
 import { LinkGroup, Modal } from '@/components';
-import { IMAGE_BASE_URL, MOVIE_ENDPOINT, TV_ENDPOINT, ORIGINAL_IMAGE_BASE_URL, type MovieResponse, type TvDetailsResponse } from '@/core';
+import { IMAGE_BASE_URL, MOVIE_ENDPOINT, ORIGINAL_IMAGE_BASE_URL, TV_ENDPOINT, type MovieResponse, type TvDetailsResponse } from '@/core';
 import { useTmdb } from '@/hooks';
 import { FaCalendarAlt } from 'react-icons/fa';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -11,7 +11,7 @@ export const MovieView = () => {
 
   const isMovie = location.pathname.includes('/movie/');
   const { data } = useTmdb<MovieResponse | TvDetailsResponse>(
-    `${isMovie ? MOVIE_ENDPOINT : TV_ENDPOINT}/${id}`, 
+    `${isMovie ? MOVIE_ENDPOINT : TV_ENDPOINT}/${id}`,
     { append_to_response: 'videos' },
     [id, isMovie]
   );
@@ -39,8 +39,12 @@ export const MovieView = () => {
               </p>
               {!isMovie && (
                 <p className="mt-1">
-                  {(data as TvDetailsResponse).seasons?.filter(s => s.season_number > 0).length} Seasons • 
-                  {(data as TvDetailsResponse).seasons?.reduce((total, s) => s.season_number > 0 ? total + s.episode_count : total, 0)} Episodes
+                  {(data as TvDetailsResponse).seasons?.filter((s) => s.season_number > 0).length} Seasons&nbsp;&nbsp;-&nbsp;&nbsp;
+                  {(data as TvDetailsResponse).seasons?.reduce(
+                    (total, s) => (s.season_number > 0 ? total + s.episode_count : total),
+                    0
+                  )}{' '}
+                  Episodes
                 </p>
               )}
             </div>
@@ -54,7 +58,7 @@ export const MovieView = () => {
                       { label: 'Reviews', to: 'reviews' },
                     ]
                   : [
-                      { label: 'Seasons', to: 'seasons' },
+                      { label: 'Seasons', to: 'seasons', match: ['/tv/:id/seasons', '/tv/:id/season/:seasonNumber'] },
                       { label: 'Credits', to: 'credits' },
                       { label: 'Trailers', to: 'trailers' },
                       { label: 'Reviews', to: 'reviews' },

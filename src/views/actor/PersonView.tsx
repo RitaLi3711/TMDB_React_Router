@@ -18,20 +18,20 @@ export const PersonView = () => {
   ];
 
   return (
-    <div className="max-w-[1600px] mx-auto p-5">
+    <div className="max-w-[1600px] mx-auto px-8 py-5">
       <div className="flex gap-8 mb-6">
         {person.profile_path && (
           <img src={`${IMAGE_BASE_URL}${person.profile_path}`} alt={person.name} className="w-64 aspect-[2/3] object-cover rounded-lg" />
         )}
 
         <div className="flex-1">
-          <div className="mb-2">
+          <div className="mb-6">
             <Button onClick={() => navigate(-1)}>← Back</Button>
           </div>
           <h2 className="text-3xl font-bold text-white mb-2">{person.name}</h2>
-          {person.known_for_department !== 'Acting' && <p className="text-gray-300 mb-4">{person.known_for_department}</p>}
+          {person.known_for_department !== 'Acting' && <p className="text-gray-300 mb-6">{person.known_for_department}</p>}
 
-          <div className="flex flex-col gap-2 text-sm text-gray-400 mb-4">
+          <div className="flex flex-col gap-3 text-sm text-gray-400 mb-6">
             {person.place_of_birth && (
               <div className="flex items-center gap-2">
                 <FaLocationArrow />
@@ -45,7 +45,7 @@ export const PersonView = () => {
               </div>
             )}
           </div>
-          <div>
+          <div className="mt-2">
             {person.biography ? (
               <p className="text-gray-300 leading-relaxed">{person.biography}</p>
             ) : (
@@ -55,7 +55,9 @@ export const PersonView = () => {
         </div>
       </div>
 
-      <LinkGroup options={tabs} />
+      <div className="flex justify-center mt-6">
+        <LinkGroup options={tabs} />
+      </div>
 
       <Outlet />
     </div>

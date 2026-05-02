@@ -15,8 +15,9 @@ export const ImagesView = () => {
   if (!data.profiles?.length) return <p className="text-center text-gray-400 mt-6">No images available.</p>;
 
   return (
-    <>
-      <h2 className="text-xl font-bold text-[#f0f4ef] mb-4">Images</h2>
+    <div className="p-6 pt-8 space-y-6">
+      <h2 className="text-2xl font-bold text-[#f0f4ef]">Images</h2>
+      
       <ImageGrid
         results={data.profiles.map((img, index) => ({
           id: index,
@@ -24,6 +25,6 @@ export const ImagesView = () => {
           primaryText: '',
         }))}
       />
-    </>
+    </div>
   );
 };
