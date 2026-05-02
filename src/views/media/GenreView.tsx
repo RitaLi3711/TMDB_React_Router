@@ -41,7 +41,6 @@ export const GenreView = () => {
   
   if (!data) return <p className="text-center text-gray-400">Loading genres...</p>;
 
-  // ✅ Add return here!
   return (
     <section className="max-w-[1600px] mx-auto p-5 space-y-5">
       <ButtonGroup
