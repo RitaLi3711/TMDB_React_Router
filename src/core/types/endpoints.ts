@@ -132,6 +132,11 @@ export type TrailerResponse = {
   };
 };
 
+export type PersonImagesResponse = {
+  profiles: Array<{ file_path: string }>;
+};
+
+
 export type GenreResponse = {
   results: Array<{
     id: number;
