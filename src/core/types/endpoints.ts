@@ -92,6 +92,18 @@ export type TvDetailsResponse = {
   };
 };
 
+export type TrendingResponse = {
+  results: Array<{
+    id: number;
+    title?: string;
+    name?: string;
+    poster_path: string;
+    media_type: 'movie' | 'tv';
+  }>;
+  total_pages: number;
+  page: number;
+};
+
 export type EpisodesResponse = {
   id: number;
   name: string;
