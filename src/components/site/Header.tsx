@@ -1,5 +1,4 @@
-// Header.tsx
-import { Link, SearchBar } from '@/components';
+import { LinkGroup, SearchBar } from '@/components';
 import type { SearchType } from '@/core';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -14,31 +13,17 @@ export const Header = () => {
     <header className="bg-[#0d1821] border-b border-[#344966] sticky top-0 z-50">
       <div className="flex items-center justify-between gap-20 px-4 py-4">
         <div className="flex items-center gap-4">
-          <h1 className="text-4xl font-bold text-[#f0f4ef] cursor-pointer">TMDB Explorer</h1>
-
-          <div onClick={() => navigate('/movies/category/now_playing')}>
-            <Link to="/movies/category/now_playing" match={['/movies']}>
-              Movies
-            </Link>
-          </div>
-
-          <div onClick={() => navigate('/tv/category/airing_today')}>
-            <Link to="/tv/category/airing_today" match={['/tv']}>
-              TV
-            </Link>
-          </div>
-
-          <div onClick={() => navigate('/trending/movie')}>
-            <Link to="/trending/movie" match={['/trending']}>
-              Trending
-            </Link>
-          </div>
-
-          <div onClick={() => navigate('/genre')}>
-            <Link to="/genre" match={['/genre']}>
-              Genre
-            </Link>
-          </div>
+          <h1 className="text-4xl font-bold text-[#f0f4ef] cursor-pointer" onClick={() => navigate('/movies/category/now_playing')}>
+            TMDB Explorer
+          </h1>
+          <LinkGroup
+            options={[
+              { label: 'Movies', to: '/movies/category/now_playing', match: ['/movies'] },
+              { label: 'TV', to: '/tv/category/airing_today', match: ['/tv'] },
+              { label: 'Trending', to: '/trending/movie', match: ['/trending'] },
+              { label: 'Genre', to: '/genre', match: ['/genre'] },
+            ]}
+          />
         </div>
 
         <div className="flex items-center gap-4">
