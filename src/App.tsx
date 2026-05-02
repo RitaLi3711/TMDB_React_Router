@@ -1,21 +1,21 @@
 import { MainLayout } from '@/layouts/MainLayout';
 import {
+  CareerView,
   CreditsView,
+  EpisodeView,
   ErrorView,
+  GenreView,
   HomeView,
+  ImagesView,
   MoviesView,
   MovieView,
+  PersonView,
   ReviewsView,
   SearchView,
-  TelevisionView,
-  TrendingView,
   SeasonsView,
-  EpisodeView,
+  TelevisionView,
   TrailersView,
-  GenreView,
-  PersonView,
-  CareerView,
-  ImagesView,
+  TrendingView,
 } from '@/views';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
@@ -35,11 +35,10 @@ export const App = () => {
         <Route path="trending/:mediaType" element={<TrendingView />} />
 
         <Route path="genre" element={<GenreView />} />
-        <Route path="genre/:mediaType/:genreSlug" element={<GenreView />} />
+        <Route path="genre/:type/:genreSlug" element={<GenreView />} />
 
         <Route path="search" element={<SearchView />} />
 
-        {/* Nested routes for PersonView */}
         <Route path="person/:id" element={<PersonView />}>
           <Route index element={<Navigate to="career" replace />} />
           <Route path="career" element={<CareerView />} />
