@@ -53,9 +53,6 @@ export const PersonView = () => {
               </div>
             )}
           </div>
-
-          {person.deathday && <p className="text-red-400 mb-4">Died: {new Date(person.deathday).toLocaleDateString()}</p>}
-
           <div>
             {person.biography ? (
               <p className="text-gray-300 leading-relaxed">{person.biography}</p>
