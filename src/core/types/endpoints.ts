@@ -132,6 +132,17 @@ export type TrailerResponse = {
   };
 };
 
+export type GenreResponse = {
+  results: Array<{
+    id: number;
+    title?: string;
+    name?: string;
+    poster_path: string;
+  }>;
+  total_pages: number;
+  page: number;
+};
+
 type CreditBase = {
   id: number;
   title?: string;
