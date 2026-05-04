@@ -35,10 +35,10 @@ export const GenreView = () => {
   const { type: urlType, genreSlug } = useParams();
   const type = urlType === 'tv' ? 'tv' : 'movie';
   const genres = type === 'movie' ? movieGenres : tvGenres;
-  const selectedGenre = genreSlug ? genres.find((g) => g.slug === genreSlug)?.value || genres[0].value : genres[0].value;
+  const selectedGenre = genreSlug ? genres.find((genre) => genre.slug === genreSlug)?.value || genres[0].value : genres[0].value;
   const [page, setPage] = useState(1);
   const { data } = useTmdb<GenreResponse>(`${GENRE_ENDPOINT}/${type}`, { with_genres: selectedGenre, page }, [type, selectedGenre, page]);
-  
+
   if (!data) return <p className="text-center text-gray-400">Loading genres...</p>;
 
   return (

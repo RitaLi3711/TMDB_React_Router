@@ -1,3 +1,12 @@
+export type CreditsResponse = {
+  cast: Array<{
+    id: number;
+    name: string;
+    profile_path: string | null;
+    character: string;
+  }>;
+};
+
 type CreditBase = {
   id: number;
   title?: string;
@@ -11,13 +20,13 @@ type CreditBase = {
   first_air_date?: string;
 };
 
-export type CreditsResponse = {
-  cast: Array<{
-    id: number;
-    name: string;
-    profile_path: string | null;
-    character: string;
-  }>;
+export type Episode = {
+  id: number;
+  still_path: string | null;
+  episode_number: number;
+  name: string;
+  air_date: string;
+  overview: string;
 };
 
 export type GenreResponse = {
@@ -117,6 +126,12 @@ export type SearchResponse = {
   total_results: number;
 };
 
+export type SeasonData = {
+  air_date: string;
+  episodes: Episode[];
+  overview: string;
+};
+
 export type TelevisionResponse = {
   results: Array<{
     id: number;
@@ -125,21 +140,6 @@ export type TelevisionResponse = {
     poster_path: string;
   }>;
   total_pages: number;
-};
-
-export type Episode = {
-  id: number;
-  still_path: string | null;
-  episode_number: number;
-  name: string;
-  air_date: string;
-  overview: string;
-};
-
-export type SeasonData = {
-  air_date: string;
-  episodes: Episode[];
-   overview: string; 
 };
 
 export type TrailerResponse = {

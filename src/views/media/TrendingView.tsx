@@ -7,14 +7,14 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 export const TrendingView = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [mediaType, setMediaType] = useState<'movie' | 'tv'>('movie');
+  const [type, setType] = useState<'movie' | 'tv'>('movie');
   const [timeWindow, setTimeWindow] = useState<'day' | 'week'>((searchParams.get('interval') as 'day' | 'week') || 'day');
 
   useEffect(() => {
-    navigate(`/trending/${mediaType}?interval=${timeWindow}`, { replace: true });
-  }, [timeWindow, mediaType, navigate]);
+    navigate(`/trending/${type}?interval=${timeWindow}`, { replace: true });
+  }, [timeWindow, type, navigate]);
 
-  const { data } = useTmdb<TrendingResponse>(`${TRENDING_ENDPOINT}/${mediaType}/${timeWindow}`, {}, [mediaType, timeWindow]);
+  const { data } = useTmdb<TrendingResponse>(`${TRENDING_ENDPOINT}/${type}/${timeWindow}`, {}, [type, timeWindow]);
 
   if (!data) {
     return <p className="text-center text-gray-400">Loading trending...</p>;
@@ -24,8 +24,8 @@ export const TrendingView = () => {
     <section className="max-w-[1600px] mx-auto p-5 space-y-5">
       <div className="flex justify-between items-center">
         <ButtonGroup
-          value={mediaType}
-          onClick={(value) => setMediaType(value as 'movie' | 'tv')}
+          value={type}
+          onClick={(value) => setType(value as 'movie' | 'tv')}
           options={[
             { label: 'Movies', value: 'movie' },
             { label: 'TV', value: 'tv' },
@@ -49,7 +49,7 @@ export const TrendingView = () => {
           primaryText: item.title || item.name || '',
         }))}
         onClick={(id) => {
-          const item = data.results.find((i) => i.id === id);
+          const item = data.results.find((result) => result.id === id);
           navigate(item?.media_type === 'movie' ? `/movie/${id}` : `/tv/${id}`);
         }}
       />
