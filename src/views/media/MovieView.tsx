@@ -39,9 +39,10 @@ export const MovieView = () => {
               </p>
               {!isMovie && (
                 <p className="mt-1">
-                  {(data as TvDetailsResponse).seasons?.filter((s) => s.season_number > 0).length} Seasons&nbsp;&nbsp;-&nbsp;&nbsp;
+                  {(data as TvDetailsResponse).seasons?.filter((season) => season.season_number > 0).length}{' '}
+                  Seasons&nbsp;&nbsp;-&nbsp;&nbsp;
                   {(data as TvDetailsResponse).seasons?.reduce(
-                    (total, s) => (s.season_number > 0 ? total + s.episode_count : total),
+                    (total, season) => (season.season_number > 0 ? total + season.episode_count : total),
                     0
                   )}{' '}
                   Episodes

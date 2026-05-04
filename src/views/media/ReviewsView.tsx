@@ -8,18 +8,21 @@ export const ReviewsView = () => {
   const endpoint = location.pathname.includes('/movie/') ? MOVIE_ENDPOINT : TV_ENDPOINT;
   const { data } = useTmdb<ReviewsResponse>(`${endpoint}/${id}/reviews`, {}, [id, endpoint]);
 
-  if (!data) return <p className="text-[#bfcc94] text-center">Loading reviews...</p>;
-  if (!data.results?.length) return <p className="text-center text-gray-400">No reviews available.</p>;
-
   return (
     <div className="mt-6 space-y-4">
       <h2 className="text-2xl font-bold text-[#f0f4ef]">Reviews</h2>
-      {data.results.slice(0, 5).map((review) => (
-        <div key={review.id} className="bg-[#344966] p-5 rounded-xl shadow border border-[#0d1821]">
-          <p className="text-sm text-[#bfcc94] mb-2">By {review.author}</p>
-          <p className="text-[#f0f4ef] text-sm leading-relaxed line-clamp-6">{review.content}</p>
+      {!data || !data.results?.length ? (
+        <p className="text-center text-gray-400">{!data ? 'Loading reviews...' : 'No reviews available.'}</p>
+      ) : (
+        <div className="space-y-4">
+          {data.results.slice(0, 5).map((review) => (
+            <div key={review.id} className="bg-[#344966] p-5 rounded-xl shadow border border-[#0d1821]">
+              <p className="text-sm text-[#bfcc94] mb-2">By {review.author}</p>
+              <p className="text-[#f0f4ef] text-sm leading-relaxed line-clamp-6">{review.content}</p>
+            </div>
+          ))}
         </div>
-      ))}
+      )}
     </div>
   );
 };
