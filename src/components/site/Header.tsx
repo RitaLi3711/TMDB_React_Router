@@ -6,10 +6,11 @@ import { ButtonGroup } from '../controls/buttons/ButtonGroup';
 
 export const Header = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [query, setQuery] = useState<string>('');
   const [type, setType] = useState<SearchType>('movie');
 
-  if (useLocation().pathname === '/') {
+  if (location.pathname === '/') {
     return null;
   }
 
