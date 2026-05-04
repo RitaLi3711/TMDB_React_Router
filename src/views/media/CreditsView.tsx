@@ -11,7 +11,7 @@ export const CreditsView = () => {
   const { data } = useTmdb<CreditsResponse>(`${isMovie ? MOVIE_ENDPOINT : TV_ENDPOINT}/${id}/credits`, {}, [id, isMovie]);
 
   if (!data) return <p className="text-center text-[#f0f4ef]">Loading credits...</p>;
-  if (!data.cast.length) return <p className="text-[#bfcc94] text-center">No credits available.</p>;
+  if (!data.cast.length) return <p className="text-center text-gray-400">No credits available.</p>;
 
   return (
     <div className="p-6">

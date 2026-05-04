@@ -18,18 +18,15 @@ export const PersonView = () => {
   ];
 
   return (
-    <div className="max-w-[1600px] mx-auto px-8 py-5">
+    <div className="max-w-[1600px] mx-auto  px-8 pt-15 pb-5">
       <div className="flex gap-8 mb-6">
-        {person.profile_path && (
-          <img src={`${IMAGE_BASE_URL}${person.profile_path}`} alt={person.name} className="w-64 aspect-[2/3] object-cover rounded-lg" />
-        )}
+        <img src={`${IMAGE_BASE_URL}${person.profile_path}`} alt={person.name} className="w-64 aspect-[2/3] object-cover rounded-lg" />
 
         <div className="flex-1">
           <div className="mb-6">
             <Button onClick={() => navigate(-1)}>← Back</Button>
           </div>
           <h2 className="text-3xl font-bold text-white mb-2">{person.name}</h2>
-          {person.known_for_department !== 'Acting' && <p className="text-gray-300 mb-6">{person.known_for_department}</p>}
 
           <div className="flex flex-col gap-3 text-sm text-gray-400 mb-6">
             {person.place_of_birth && (
@@ -41,7 +38,7 @@ export const PersonView = () => {
             {person.birthday && (
               <div className="flex items-center gap-2">
                 <FaBirthdayCake />
-                <span>Born: {new Date(person.birthday).toLocaleDateString()}</span>
+                <span>{person.birthday}</span>
               </div>
             )}
           </div>

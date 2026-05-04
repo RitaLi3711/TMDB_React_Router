@@ -7,14 +7,14 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 export const TrendingView = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [type, setType] = useState<'movie' | 'tv'>('movie');
+  const [type, setType] = useState<'movies' | 'tv'>('movies');
   const [timeWindow, setTimeWindow] = useState<'day' | 'week'>((searchParams.get('interval') as 'day' | 'week') || 'day');
 
   useEffect(() => {
     navigate(`/trending/${type}?interval=${timeWindow}`, { replace: true });
   }, [timeWindow, type, navigate]);
 
-  const { data } = useTmdb<TrendingResponse>(`${TRENDING_ENDPOINT}/${type}/${timeWindow}`, {}, [type, timeWindow]);
+const { data } = useTmdb<TrendingResponse>(`${TRENDING_ENDPOINT}/${type === 'movies' ? 'movie' : type}/${timeWindow}`, {}, [type, timeWindow]);
 
   if (!data) {
     return <p className="text-center text-gray-400">Loading trending...</p>;
@@ -25,9 +25,9 @@ export const TrendingView = () => {
       <div className="flex justify-between items-center">
         <ButtonGroup
           value={type}
-          onClick={(value) => setType(value as 'movie' | 'tv')}
+          onClick={(value) => setType(value as 'movies' | 'tv')}
           options={[
-            { label: 'Movies', value: 'movie' },
+            { label: 'Movies', value: 'movies' },
             { label: 'TV', value: 'tv' },
           ]}
         />

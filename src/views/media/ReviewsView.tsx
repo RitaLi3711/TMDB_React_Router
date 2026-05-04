@@ -9,7 +9,7 @@ export const ReviewsView = () => {
   const { data } = useTmdb<ReviewsResponse>(`${endpoint}/${id}/reviews`, {}, [id, endpoint]);
 
   if (!data) return <p className="text-[#bfcc94] text-center">Loading reviews...</p>;
-  if (!data.results?.length) return <p className="text-[#bfcc94] text-center">No reviews available.</p>;
+  if (!data.results?.length) return <p className="text-center text-gray-400">No reviews available.</p>;
 
   return (
     <div className="mt-6 space-y-4">

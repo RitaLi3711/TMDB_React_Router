@@ -10,7 +10,7 @@ export const TrailersView = () => {
   const trailers = data?.videos?.results?.filter((video) => video.site === 'YouTube' && video.type === 'Trailer') || [];
 
   if (!data) return <p className="text-gray-400">Loading trailers...</p>;
-  if (trailers.length === 0) return <p className="text-gray-400">No trailers available</p>;
+  if (trailers.length === 0) return <p className="text-center text-gray-400">No trailers available.</p>;
 
   return (
     <div className="space-y-6">

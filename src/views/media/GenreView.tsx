@@ -33,7 +33,7 @@ const tvGenres = [
 export const GenreView = () => {
   const navigate = useNavigate();
   const { type: urlType, genreSlug } = useParams();
-  const type = urlType === 'tv' ? 'tv' : 'movie';
+  const type = urlType === 'movies' ? 'movie' : 'tv';
   const genres = type === 'movie' ? movieGenres : tvGenres;
   const selectedGenre = genreSlug ? genres.find((genre) => genre.slug === genreSlug)?.value || genres[0].value : genres[0].value;
   const [page, setPage] = useState(1);
