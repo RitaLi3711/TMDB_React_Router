@@ -1,7 +1,7 @@
 import { LinkGroup, SearchBar } from '@/components';
 import type { SearchType } from '@/core';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ButtonGroup } from '../controls/buttons/ButtonGroup';
 
 export const Header = () => {
@@ -9,11 +9,15 @@ export const Header = () => {
   const [query, setQuery] = useState<string>('');
   const [type, setType] = useState<SearchType>('movie');
 
+  if (useLocation().pathname === '/') {
+    return null;
+  }
+
   return (
     <header className="bg-[#0d1821] border-b border-[#344966] sticky top-0 z-50">
       <div className="flex items-center justify-between gap-20 px-4 py-4">
         <div className="flex items-center gap-4">
-          <h1 className="text-4xl font-bold text-[#f0f4ef] cursor-pointer" onClick={() => navigate('/movies/category/now_playing')}>
+          <h1 className="text-4xl font-bold text-[#f0f4ef] cursor-pointer" onClick={() => navigate('/')}>
             TMDB Explorer
           </h1>
           <LinkGroup
