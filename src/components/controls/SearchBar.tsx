@@ -7,6 +7,7 @@ export const SearchBar = ({ value, onChange }: SearchBarProps) => {
   return (
     <input
       type="search"
+      name="search"
       value={value}
       onChange={(event) => {
         onChange(event.target.value);

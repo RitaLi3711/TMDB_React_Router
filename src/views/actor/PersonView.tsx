@@ -12,11 +12,6 @@ export const PersonView = () => {
 
   if (!person) return <p className="text-center text-gray-400 p-5">Loading...</p>;
 
-  const tabs = [
-    { label: 'Career', to: `career` },
-    { label: 'Images', to: `images` },
-  ];
-
   return (
     <div className="max-w-[1600px] mx-auto px-8 pt-16 pb-5">
       <div className="flex gap-8 mb-6">
@@ -53,7 +48,12 @@ export const PersonView = () => {
       </div>
 
       <div className="flex justify-center mt-6">
-        <LinkGroup options={tabs} />
+        <LinkGroup
+          options={[
+            { label: 'Career', to: 'career' },
+            { label: 'Images', to: 'images' },
+          ]}
+        />
       </div>
 
       <Outlet />

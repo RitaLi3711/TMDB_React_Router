@@ -14,7 +14,10 @@ export const TrendingView = () => {
     navigate(`/trending/${type}?interval=${timeWindow}`, { replace: true });
   }, [timeWindow, type, navigate]);
 
-const { data } = useTmdb<TrendingResponse>(`${TRENDING_ENDPOINT}/${type === 'movies' ? 'movie' : type}/${timeWindow}`, {}, [type, timeWindow]);
+  const { data } = useTmdb<TrendingResponse>(`${TRENDING_ENDPOINT}/${type === 'movies' ? 'movie' : type}/${timeWindow}`, {}, [
+    type,
+    timeWindow,
+  ]);
 
   if (!data) {
     return <p className="text-center text-gray-400">Loading trending...</p>;
