@@ -36,7 +36,7 @@ const { data } = useTmdb<TrendingResponse>(`${TRENDING_ENDPOINT}/${type === 'mov
           value={timeWindow}
           onClick={(value) => setTimeWindow(value as 'day' | 'week')}
           options={[
-            { label: 'Day', value: 'day' },
+            { label: 'Today', value: 'day' },
             { label: 'Week', value: 'week' },
           ]}
         />
