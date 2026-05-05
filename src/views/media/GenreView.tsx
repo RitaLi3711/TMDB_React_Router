@@ -46,13 +46,13 @@ export const GenreView = () => {
       <ButtonGroup
         value={type}
         onClick={(value) => {
-          const newType = value as 'movie' | 'tv';
-          const newGenres = newType === 'movie' ? movieGenres : tvGenres;
+          const newType = value as 'movies' | 'tv';
+          const newGenres = newType === 'movies' ? movieGenres : tvGenres;
           const defaultGenre = newGenres[0];
           navigate(`/genre/${newType}/${defaultGenre.slug}`);
         }}
         options={[
-          { label: 'Movies', value: 'movie' },
+          { label: 'Movies', value: 'movies' },
           { label: 'TV', value: 'tv' },
         ]}
       />
