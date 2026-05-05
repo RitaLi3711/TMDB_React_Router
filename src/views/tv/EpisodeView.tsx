@@ -17,7 +17,7 @@ export const EpisodeView = () => {
       <div className="mb-5">
         <Button onClick={() => navigate(-1)} variant="primary">
           <FaArrowLeft className="inline mr-2" />
-          Back 
+          Back
         </Button>
       </div>
 
@@ -30,8 +30,8 @@ export const EpisodeView = () => {
       </div>
 
       <div className="mb-6">
-        <h2 className="text-2xl font-bold mb-2">Episodes</h2>
         <p className="text-gray-400">{data.overview || ''}</p>
+        <h2 className="text-2xl font-bold mt-8">Episodes</h2>
       </div>
 
       <ImageGrid
