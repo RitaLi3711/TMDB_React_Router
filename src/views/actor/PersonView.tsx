@@ -18,7 +18,7 @@ export const PersonView = () => {
   ];
 
   return (
-    <div className="max-w-[1600px] mx-auto  px-8 pt-15 pb-5">
+    <div className="max-w-[1600px] mx-auto px-8 pt-16 pb-5">
       <div className="flex gap-8 mb-6">
         <img src={`${IMAGE_BASE_URL}${person.profile_path}`} alt={person.name} className="w-64 aspect-[2/3] object-cover rounded-lg" />
 

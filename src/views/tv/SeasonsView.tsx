@@ -16,8 +16,8 @@ export const SeasonsView = () => {
   if (!data) return <p className="text-gray-400">Loading seasons...</p>;
 
   return (
-    <div className="p-6 space-y-6 max-h-[90vh] overflow-y-auto">
-      <h2 className="text-2xl font-bold">Seasons</h2>
+<div className="p-6 space-y-6">
+        <h2 className="text-2xl font-bold">Seasons</h2>
       
       <ImageGrid 
         results={(data.seasons || [])

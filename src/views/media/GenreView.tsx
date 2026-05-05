@@ -1,5 +1,5 @@
 import { Button, ButtonGroup, ImageGrid, Pagination } from '@/components';
-import { GENRE_ENDPOINT, IMAGE_BASE_URL, type GenreResponse , movieGenres, tvGenres} from '@/core';
+import { GENRE_ENDPOINT, IMAGE_BASE_URL, movieGenres, tvGenres, type GenreResponse } from '@/core';
 import { useTmdb } from '@/hooks';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -9,15 +9,15 @@ export const GenreView = () => {
   const { type: urlType = 'movies', genreSlug = 'action' } = useParams();
   const [type, setType] = useState<'movies' | 'tv'>(urlType as 'movies' | 'tv');
   const [page, setPage] = useState(1);
-  
-  const genres = type === 'movies' ? movieGenres : tvGenres;
-  const selectedGenre = genres.find(g => g.slug === genreSlug)?.value ?? genres[0].value;
 
-  const { data } = useTmdb<GenreResponse>(
-    `${GENRE_ENDPOINT}/${type === 'movies' ? 'movie' : 'tv'}`,
-    { with_genres: selectedGenre, page },
-    [type, selectedGenre, page]
-  );
+  const genres = type === 'movies' ? movieGenres : tvGenres;
+  const selectedGenre = genres.find((g) => g.slug === genreSlug)?.value ?? genres[0].value;
+
+  const { data } = useTmdb<GenreResponse>(`${GENRE_ENDPOINT}/${type === 'movies' ? 'movie' : 'tv'}`, { with_genres: selectedGenre, page }, [
+    type,
+    selectedGenre,
+    page,
+  ]);
 
   if (!data) return <p className="text-center text-gray-400">Loading genres...</p>;
 

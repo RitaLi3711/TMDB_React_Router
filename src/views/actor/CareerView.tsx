@@ -1,5 +1,5 @@
 import { ImageGrid } from '@/components';
-import { IMAGE_BASE_URL, PERSON_ENDPOINT, type PersonCareerResponse} from '@/core';
+import { IMAGE_BASE_URL, PERSON_ENDPOINT, type PersonCareerResponse } from '@/core';
 import { useTmdb } from '@/hooks';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -13,7 +13,7 @@ export const CareerView = () => {
   return (
     <div className="p-6 pt-8 space-y-6">
       <h2 className="text-2xl font-bold text-[#f0f4ef]">Career</h2>
-      
+
       <ImageGrid
         results={data.cast.map((item) => ({
           id: item.id,

@@ -1,8 +1,7 @@
-import { LinkGroup, SearchBar } from '@/components';
+import { ButtonGroup, LinkGroup, SearchBar } from '@/components';
 import type { SearchType } from '@/core';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ButtonGroup } from '../controls/buttons/ButtonGroup';
 
 export const Header = () => {
   const navigate = useNavigate();

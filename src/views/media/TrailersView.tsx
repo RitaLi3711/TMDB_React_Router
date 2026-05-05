@@ -12,10 +12,8 @@ export const TrailersView = () => {
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-bold">Trailers</h2>
-      {(!data || trailers.length === 0) ? (
-        <p className="text-center text-gray-400">
-          {!data ? "Loading trailers..." : "No trailers available."}
-        </p>
+      {!data || trailers.length === 0 ? (
+        <p className="text-center text-gray-400">{!data ? 'Loading trailers...' : 'No trailers available.'}</p>
       ) : (
         <div className="space-y-6">
           {trailers.map((trailer) => (
