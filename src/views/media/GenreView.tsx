@@ -1,43 +1,23 @@
 import { Button, ButtonGroup, ImageGrid, Pagination } from '@/components';
-import { GENRE_ENDPOINT, IMAGE_BASE_URL, type GenreResponse } from '@/core';
+import { GENRE_ENDPOINT, IMAGE_BASE_URL, type GenreResponse , movieGenres, tvGenres} from '@/core';
 import { useTmdb } from '@/hooks';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const movieGenres = [
-  { label: 'Action', value: 28, slug: 'action' },
-  { label: 'Adventure', value: 12, slug: 'adventure' },
-  { label: 'Animation', value: 16, slug: 'animation' },
-  { label: 'Crime', value: 80, slug: 'crime' },
-  { label: 'Family', value: 10751, slug: 'family' },
-  { label: 'Fantasy', value: 14, slug: 'fantasy' },
-  { label: 'History', value: 36, slug: 'history' },
-  { label: 'Horror', value: 27, slug: 'horror' },
-  { label: 'Mystery', value: 9648, slug: 'mystery' },
-  { label: 'Sci-Fi', value: 878, slug: 'sci-fi' },
-];
-
-const tvGenres = [
-  { label: 'Action', value: 10759, slug: 'action' },
-  { label: 'Animation', value: 16, slug: 'animation' },
-  { label: 'Comedy', value: 35, slug: 'comedy' },
-  { label: 'Crime', value: 80, slug: 'crime' },
-  { label: 'Documentary', value: 99, slug: 'documentary' },
-  { label: 'Drama', value: 18, slug: 'drama' },
-  { label: 'Family', value: 10751, slug: 'family' },
-  { label: 'Kids', value: 10762, slug: 'kids' },
-  { label: 'Mystery', value: 9648, slug: 'mystery' },
-  { label: 'Sci-Fi', value: 10765, slug: 'sci-fi' },
-];
-
 export const GenreView = () => {
   const navigate = useNavigate();
-  const { type: urlType, genreSlug } = useParams();
-  const type = urlType === 'movies' ? 'movie' : 'tv';
-  const genres = type === 'movie' ? movieGenres : tvGenres;
-  const selectedGenre = genreSlug ? genres.find((genre) => genre.slug === genreSlug)?.value || genres[0].value : genres[0].value;
+  const { type: urlType = 'movies', genreSlug = 'action' } = useParams();
+  const [type, setType] = useState<'movies' | 'tv'>(urlType as 'movies' | 'tv');
   const [page, setPage] = useState(1);
-  const { data } = useTmdb<GenreResponse>(`${GENRE_ENDPOINT}/${type}`, { with_genres: selectedGenre, page }, [type, selectedGenre, page]);
+  
+  const genres = type === 'movies' ? movieGenres : tvGenres;
+  const selectedGenre = genres.find(g => g.slug === genreSlug)?.value ?? genres[0].value;
+
+  const { data } = useTmdb<GenreResponse>(
+    `${GENRE_ENDPOINT}/${type === 'movies' ? 'movie' : 'tv'}`,
+    { with_genres: selectedGenre, page },
+    [type, selectedGenre, page]
+  );
 
   if (!data) return <p className="text-center text-gray-400">Loading genres...</p>;
 
@@ -48,8 +28,9 @@ export const GenreView = () => {
         onClick={(value) => {
           const newType = value as 'movies' | 'tv';
           const newGenres = newType === 'movies' ? movieGenres : tvGenres;
-          const defaultGenre = newGenres[0];
-          navigate(`/genre/${newType}/${defaultGenre.slug}`);
+          setType(newType);
+          setPage(1);
+          navigate(`/genre/${newType}/${newGenres[0].slug}`);
         }}
         options={[
           { label: 'Movies', value: 'movies' },
@@ -62,7 +43,10 @@ export const GenreView = () => {
           <Button
             key={genre.value}
             variant={selectedGenre === genre.value ? 'primary' : 'grey'}
-            onClick={() => navigate(`/genre/${type}/${genre.slug}`)}
+            onClick={() => {
+              navigate(`/genre/${type}/${genre.slug}`);
+              setPage(1);
+            }}
           >
             {genre.label}
           </Button>
@@ -75,7 +59,7 @@ export const GenreView = () => {
           imageUrl: `${IMAGE_BASE_URL}${item.poster_path ?? ''}`,
           primaryText: item.title || item.name || '',
         }))}
-        onClick={(id) => navigate(`/${type}/${id}`)}
+        onClick={(id) => navigate(`/${type === 'movies' ? 'movie' : 'tv'}/${id}`)}
       />
 
       <Pagination page={page} maxPages={data.total_pages} onClick={setPage} />
