@@ -5,10 +5,12 @@ import { useParams } from 'react-router-dom';
 
 export const ImagesView = () => {
   const { id } = useParams();
-
   const { data } = useTmdb<PersonImagesResponse>(`${PERSON_ENDPOINT}/${id}/images`, {}, [id]);
 
-  if (!data) return <p className="text-center text-gray-400 mt-6">Loading images...</p>;
+  if (!data) {
+    return <p className="text-center text-gray-400 mt-6">Loading images...</p>;
+  }
+
   if (!data.profiles?.length) return <p className="text-center text-gray-400 mt-6">No images available.</p>;
 
   return (
